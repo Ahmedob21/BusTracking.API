@@ -14,10 +14,10 @@ namespace BusTracking.Infra.Repository
 {
     public class UserRepository: IUserRepository
     {
-        private readonly IDbContext _dBContext;
+        private readonly IDbContext _dbContext;
         public UserRepository(IDbContext dBContext)
         {
-            _dBContext = dBContext;
+            _dbContext = dBContext;
         }
 
         public async Task CreateUser(UserModel userModel )
@@ -35,7 +35,7 @@ namespace BusTracking.Infra.Repository
             param.Add("Imagepath", userModel.Imagepath, dbType: DbType.String, direction: ParameterDirection.Input);
             param.Add("UserId", dbType: DbType.Int32, direction: ParameterDirection.Output);
 
-            await _dBContext.Connection.ExecuteAsync("User_Package.Create_User", param, commandType: CommandType.StoredProcedure);
+            await _dbContext.Connection.ExecuteAsync("User_Package.Create_User", param, commandType: CommandType.StoredProcedure);
 
             userModel.Userid = param.Get<int>("UserId");
         }
@@ -45,13 +45,13 @@ namespace BusTracking.Infra.Repository
         {
             var param = new DynamicParameters();
             param.Add("d_userID", userid, dbType: DbType.Int32, direction: ParameterDirection.Input);
-            await _dBContext.Connection.ExecuteAsync("user__package.delete_user_", param, commandType: CommandType.StoredProcedure);
+            await _dbContext.Connection.ExecuteAsync("user__package.delete_user_", param, commandType: CommandType.StoredProcedure);
 
         }
 
         public async Task<List<UserResult>> GetAllUser()
         {
-            var result = await _dBContext.Connection.QueryAsync<UserResult>("user__package.get_all_user_", commandType: CommandType.StoredProcedure);
+            var result = await _dbContext.Connection.QueryAsync<UserResult>("user__package.get_all_user_", commandType: CommandType.StoredProcedure);
             return result.ToList();
         }
 
@@ -59,7 +59,7 @@ namespace BusTracking.Infra.Repository
         {
             var param = new DynamicParameters();
             param.Add("get_userID", userid, dbType: DbType.Int32, direction: ParameterDirection.Input);
-            var result = await _dBContext.Connection.QueryAsync<User>("USER__PACKAGE.get_user__by_id", param , commandType: CommandType.StoredProcedure);
+            var result = await _dbContext.Connection.QueryAsync<User>("USER__PACKAGE.get_user__by_id", param , commandType: CommandType.StoredProcedure);
             return result.SingleOrDefault();
         }
 
@@ -75,7 +75,7 @@ namespace BusTracking.Infra.Repository
             param.Add("c_phone", user.Phone, dbType: DbType.Int32, direction: ParameterDirection.Input);
             param.Add("c_roleid", user.Roleid, dbType: DbType.Int32, direction: ParameterDirection.Input);
             param.Add("c_gender", user.Gender, dbType: DbType.String, direction: ParameterDirection.Input);
-            await _dBContext.Connection.ExecuteAsync("user__package.update_user_", param, commandType: CommandType.StoredProcedure);
+            await _dbContext.Connection.ExecuteAsync("user__package.update_user_", param, commandType: CommandType.StoredProcedure);
 
         }
     }
