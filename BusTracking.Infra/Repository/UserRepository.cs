@@ -51,7 +51,7 @@ namespace BusTracking.Infra.Repository
 
         public async Task<List<UserResult>> GetAllUser()
         {
-            var result = await _dBContext.Connection.QueryAsync<UserResult>("user__package.delete_user_", commandType: CommandType.StoredProcedure);
+            var result = await _dBContext.Connection.QueryAsync<UserResult>("user__package.get_all_user_", commandType: CommandType.StoredProcedure);
             return result.ToList();
         }
 
