@@ -1,4 +1,5 @@
 ﻿using BusTracking.Core.Data;
+using BusTracking.Core.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +10,8 @@ namespace BusTracking.Core.IRepository
 {
     public interface IChildRepository
     {
-        Task<List<Child>> GetAllChildren();
-        Task<Child> GetChildById(int Childid);
+        Task<List<ChidrenResult>> GetAllChildren();
+        Task<ChidrenResult> GetChildById(int Childid);
         Task CreateChild(Child child);
         Task UpdateChild(Child child);
         Task DeleteChild(int Childid);
