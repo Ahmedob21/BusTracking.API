@@ -14,11 +14,11 @@ namespace BusTracking.Infra.Repository
 {
     public class BusRepository  : IBusRepository
     {
-        private readonly IDbContext _dBContext;
+        private readonly IDbContext _dbContext;
 
         public BusRepository(IDbContext dBContext)
         {
-            _dBContext = dBContext;
+            _dbContext = dBContext;
         }
 
 
@@ -31,7 +31,7 @@ namespace BusTracking.Infra.Repository
             param.Add("c_TEACHERID", bus.Teacherid, DbType.Int32, direction: ParameterDirection.Input);
 
 
-            var result = await _dBContext.Connection.ExecuteAsync("BUSES_PACKAGE.create_Buses", param, commandType: CommandType.StoredProcedure);
+            var result = await _dbContext.Connection.ExecuteAsync("BUSES_PACKAGE.create_Buses", param, commandType: CommandType.StoredProcedure);
 
         }
 
@@ -46,7 +46,7 @@ namespace BusTracking.Infra.Repository
 
 
 
-            var result = await _dBContext.Connection.ExecuteAsync("BUSES_PACKAGE.update_Buses", param, commandType: CommandType.StoredProcedure);
+            var result = await _dbContext.Connection.ExecuteAsync("BUSES_PACKAGE.update_Buses", param, commandType: CommandType.StoredProcedure);
 
         }
 
@@ -56,7 +56,7 @@ namespace BusTracking.Infra.Repository
             param.Add("d_BusId", Busid, DbType.Int32, direction: ParameterDirection.Input);
 
 
-            var result = await _dBContext.Connection.ExecuteAsync("BUSES_PACKAGE.delete_Buses", param, commandType: CommandType.StoredProcedure);
+            var result = await _dbContext.Connection.ExecuteAsync("BUSES_PACKAGE.delete_Buses", param, commandType: CommandType.StoredProcedure);
 
 
         }
@@ -68,13 +68,13 @@ namespace BusTracking.Infra.Repository
 
 
 
-            var result = await _dBContext.Connection.QueryAsync<bus>("BUSES_PACKAGE.get_Buses_by_id", param, commandType: CommandType.StoredProcedure);
+            var result = await _dbContext.Connection.QueryAsync<bus>("BUSES_PACKAGE.get_Buses_by_id", param, commandType: CommandType.StoredProcedure);
             return result.FirstOrDefault();
         }
 
         public async Task<List<GetAllBuses>> GetAllBuses()
         {
-            var result = await _dBContext.Connection.QueryAsync<GetAllBuses>("BUSES_PACKAGE.get_all_Buses", commandType: CommandType.StoredProcedure);
+            var result = await _dbContext.Connection.QueryAsync<GetAllBuses>("BUSES_PACKAGE.get_all_Buses", commandType: CommandType.StoredProcedure);
             return result.ToList();
         }
 
