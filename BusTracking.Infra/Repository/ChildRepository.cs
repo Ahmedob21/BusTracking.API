@@ -66,5 +66,16 @@ namespace BusTracking.Infra.Repository
 
 
 
+        public async Task<List<Child>> SearchChildrenByName(string name)
+        {
+            var param = new DynamicParameters();
+            param.Add("search_Name", name, dbType: DbType.String, direction: ParameterDirection.Input);
+            var result = await _dbContext.Connection.QueryAsync<Child>("Search_Children_Package.Search_Children_By_Name", param, commandType: CommandType.StoredProcedure);
+            return result.ToList();
+        }
+
+
+
+
     }
 }

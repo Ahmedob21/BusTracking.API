@@ -14,5 +14,6 @@ namespace BusTracking.Core.IService
         Task CreateChild(Child child);
         Task UpdateChild(Child child);
         Task DeleteChild(int Childid);
+        Task<List<Child>> SearchChildrenByName(string name);
     }
 }

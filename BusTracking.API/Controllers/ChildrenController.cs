@@ -46,5 +46,14 @@ namespace BusTracking.API.Controllers
         {
             await _childService.UpdateChild(child);
         }
+
+
+
+        [HttpGet("{name}")]                //successfully working
+        [Route("SearchByName")]
+        public Task<List<Child>> SearchChildrenByName(string name)
+        {
+            return _childService.SearchChildrenByName(name);
+        }
     }
 }

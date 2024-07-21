@@ -4,6 +4,9 @@ using BusTracking.Core.IService;
 using BusTracking.Infra.Common;
 using BusTracking.Infra.Repository;
 using BusTracking.Infra.Service;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace BusTracking.API
 {
@@ -37,11 +40,11 @@ namespace BusTracking.API
             builder.Services.AddScoped<IContactUsService, ContactUsService>();
             builder.Services.AddScoped<IPageContentService, PageContentService>();
             builder.Services.AddScoped<ITestimonialService, TestimonialService>();
+            builder.Services.AddScoped<ILoginService, LoginService>();
+            builder.Services.AddScoped<IUpdateProfileService, UpdateProfileService>();
+
+
             
-            
-
-
-
 
             //Repository
             builder.Services.AddScoped<IUserRepository, UserRepository>();
@@ -51,16 +54,42 @@ namespace BusTracking.API
             builder.Services.AddScoped<IContactUsRepository, ContactUsRepository>();
             builder.Services.AddScoped<IPageContentRepository, PageContentRepository>();
             builder.Services.AddScoped<ITestimonialRepository, TestimonialRepository>();
+            builder.Services.AddScoped<ILoginRepository, LoginRepository>();
+            builder.Services.AddScoped<IUpdateProfileRepository, UpdateProfileRepository>();
 
 
 
+            builder.Services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(x => x.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuer = true,
+                ValidateAudience = false,
+                ValidateLifetime = true,
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("This is our secret key of the bus tracking system This is our secret key of the bus tracking system"))
+            });
 
 
+            builder.Services.AddCors(corsOptions =>
 
+            {
 
-            
+                corsOptions.AddPolicy("policy",
 
-              var app = builder.Build();
+                builder =>
+
+                {
+
+                    builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+
+                });
+
+            });
+
+            var app = builder.Build();
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
@@ -69,11 +98,14 @@ namespace BusTracking.API
                 app.UseSwaggerUI();
             }
 
-            app.UseHttpsRedirection();
 
+
+
+            app.UseAuthentication();
             app.UseAuthorization();
+            app.UseCors("policy");
 
-
+            app.UseHttpsRedirection();
             app.MapControllers();
 
             app.Run();

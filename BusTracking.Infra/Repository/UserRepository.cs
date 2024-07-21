@@ -51,15 +51,15 @@ namespace BusTracking.Infra.Repository
 
         public async Task<List<UserResult>> GetAllUser()
         {
-            var result = await _dBContext.Connection.QueryAsync<UserResult>("user__package.get_all_user_", commandType: CommandType.StoredProcedure);
+            var result = await _dBContext.Connection.QueryAsync<UserResult>("user__package.delete_user_", commandType: CommandType.StoredProcedure);
             return result.ToList();
         }
 
-        public async Task<User> GetUserById(int id)
+        public async Task<User> GetUserById(int userid)
         {
             var param = new DynamicParameters();
-            param.Add("d_userID", id, dbType: DbType.Int32, direction: ParameterDirection.Input);
-            var result = await _dBContext.Connection.QueryAsync<User>("user__package.get_user__by_id", commandType: CommandType.StoredProcedure);
+            param.Add("get_userID", userid, dbType: DbType.Int32, direction: ParameterDirection.Input);
+            var result = await _dBContext.Connection.QueryAsync<User>("USER__PACKAGE.get_user__by_id", param , commandType: CommandType.StoredProcedure);
             return result.SingleOrDefault();
         }
 

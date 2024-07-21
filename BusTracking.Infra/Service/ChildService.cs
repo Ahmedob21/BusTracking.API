@@ -42,5 +42,11 @@ namespace BusTracking.Infra.Service
         {
             await _childRepository.UpdateChild(child);
         }
+
+
+        public Task<List<Child>> SearchChildrenByName(string name)
+        {
+            return _childRepository.SearchChildrenByName(name);
+        }
     }
 }

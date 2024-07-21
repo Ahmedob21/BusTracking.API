@@ -58,7 +58,7 @@ namespace BusTracking.API.Controllers
             await _userService.UpdateUser(user);
         }
 
-        [HttpDelete]
+        [HttpDelete("{userId}")]
         public async Task DeleteUser(int userid)
         {
             await _userService.DeleteUser(userid);
