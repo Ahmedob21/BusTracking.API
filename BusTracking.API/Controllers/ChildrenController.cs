@@ -1,4 +1,5 @@
 ﻿using BusTracking.Core.Data;
+using BusTracking.Core.DTO;
 using BusTracking.Core.IService;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -16,7 +17,7 @@ namespace BusTracking.API.Controllers
             _childService = childService;
         }
         [HttpGet]               //succesfully working
-        public async Task<List<Child>> GetAllChildren()
+        public async Task<List<ChidrenResult>> GetAllChildren()
         {
             return await _childService.GetAllChildren();
         }
@@ -28,8 +29,8 @@ namespace BusTracking.API.Controllers
         }
 
 
-        [HttpGet("{Childid}")]      //succesfully working
-        public async Task<Child> GetChildById(int Childid)
+        [HttpGet("{Childid}")]        //succesfully working
+        public async Task<ChidrenResult> GetChildById(int Childid)
         {
             return await _childService.GetChildById(Childid);
         }
@@ -49,8 +50,8 @@ namespace BusTracking.API.Controllers
 
 
 
-        [HttpGet("{name}")]                //successfully working
-        [Route("SearchByName")]
+        [HttpGet]                //successfully working
+        [Route("SearchByName/{name}")]
         public Task<List<Child>> SearchChildrenByName(string name)
         {
             return _childService.SearchChildrenByName(name);

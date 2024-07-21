@@ -1,4 +1,5 @@
 ﻿using BusTracking.Core.Data;
+using BusTracking.Core.DTO;
 using BusTracking.Core.ICommon;
 using BusTracking.Core.IRepository;
 using Dapper;
@@ -38,17 +39,17 @@ namespace BusTracking.Infra.Repository
             await _dbContext.Connection.ExecuteAsync("Children_package.delete_Children", param, commandType: CommandType.StoredProcedure);
         }
 
-        public async Task<List<Child>> GetAllChildren()
+        public async Task<List<ChidrenResult>> GetAllChildren()
         {
-            var result = await _dbContext.Connection.QueryAsync<Child>("Children_package.get_all_Children", commandType: CommandType.StoredProcedure);
+            var result = await _dbContext.Connection.QueryAsync<ChidrenResult>("Children_package.get_all_Children", commandType: CommandType.StoredProcedure);
             return result.ToList();
         }
 
-        public async Task<Child> GetChildById(int Childid)
+        public async Task<ChidrenResult> GetChildById(int Childid)
         {
             var param = new DynamicParameters();
             param.Add("get_ChildId", Childid, dbType: DbType.Int32, direction: ParameterDirection.Input);
-            var result = await _dbContext.Connection.QueryAsync<Child>("Children_package.get_Children_by_id", param, commandType: CommandType.StoredProcedure);
+            var result = await _dbContext.Connection.QueryAsync<ChidrenResult>("Children_package.get_Children_by_id", param, commandType: CommandType.StoredProcedure);
             return result.FirstOrDefault();
         }
 

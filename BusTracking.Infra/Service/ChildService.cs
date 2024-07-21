@@ -1,4 +1,5 @@
 ﻿using BusTracking.Core.Data;
+using BusTracking.Core.DTO;
 using BusTracking.Core.IRepository;
 using BusTracking.Core.IService;
 using System;
@@ -28,12 +29,12 @@ namespace BusTracking.Infra.Service
             await _childRepository.DeleteChild(Childid);
         }
 
-        public Task<List<Child>> GetAllChildren()
+        public Task<List<ChidrenResult>> GetAllChildren()
         {
             return _childRepository.GetAllChildren();
         }
 
-        public Task<Child> GetChildById(int Childid)
+        public Task<ChidrenResult> GetChildById(int Childid)
         {
             return _childRepository.GetChildById(Childid);
         }
