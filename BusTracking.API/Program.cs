@@ -34,7 +34,11 @@ namespace BusTracking.API
             builder.Services.AddScoped<IBusService, BusService>();
             builder.Services.AddScoped<IRoleService, RoleService>();
             builder.Services.AddScoped<IChildService, ChildService>();
-
+            builder.Services.AddScoped<IContactUsService, ContactUsService>();
+            builder.Services.AddScoped<IPageContentService, PageContentService>();
+            builder.Services.AddScoped<ITestimonialService, TestimonialService>();
+            
+            
 
 
 
@@ -44,6 +48,9 @@ namespace BusTracking.API
             builder.Services.AddScoped<IBusRepository, BusRepository>();
             builder.Services.AddScoped<IRoleRepository, RoleRepository>();
             builder.Services.AddScoped<IChildRepository, ChildRepository>();
+            builder.Services.AddScoped<IContactUsRepository, ContactUsRepository>();
+            builder.Services.AddScoped<IPageContentRepository, PageContentRepository>();
+            builder.Services.AddScoped<ITestimonialRepository, TestimonialRepository>();
 
 
 
@@ -51,8 +58,9 @@ namespace BusTracking.API
 
 
 
+            
 
-            var app = builder.Build();
+              var app = builder.Build();
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
