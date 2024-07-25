@@ -31,6 +31,7 @@ namespace BusTracking.API.Controllers
         }
 
         [HttpDelete]
+        [Route("delete/{Busid}")]
         public async Task DeleteBus(int Busid)
         {
             await _busService.DeleteBus(Busid);
