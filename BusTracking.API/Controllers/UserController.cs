@@ -64,5 +64,22 @@ namespace BusTracking.API.Controllers
             await _userService.DeleteUser(userid);
         }
 
+
+
+
+        [HttpPost]
+        [Route("UploadImage")]
+        public string UploadImage()
+        {
+            var file = Request.Form.Files[0];
+            var fileName = Guid.NewGuid().ToString() + "_" + file.FileName;
+            var fullPath = Path.Combine("C:\\Users\\ahmad\\OneDrive\\Desktop\\asp.net\\chapters\\FinalProject\\BusTracking.API\\BusTracking.API\\Image\\", fileName);
+            using (var stream = new FileStream(fullPath, FileMode.Create))
+            {
+                file.CopyTo(stream);
+            }
+
+            return fileName;
+        }
     }
 }

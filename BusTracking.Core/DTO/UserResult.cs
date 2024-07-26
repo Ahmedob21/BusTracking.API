@@ -13,6 +13,7 @@ namespace BusTracking.Core.DTO
         public string? Imagepath { get; set; }
         public string? Phone { get; set; }
         public decimal? Roleid { get; set; }
+        public DateTimeOffset? CreatedDate { get; set; }
         public string Lastname { get; set; } = null!;
         public string? Address { get; set; }
         public string Username { get; set; } = null!;

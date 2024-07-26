@@ -35,7 +35,8 @@ namespace BusTracking.API.Controllers
             return await _childService.GetChildById(Childid);
         }
 
-        [HttpDelete("{Childid}")]  //succesfully working
+        [HttpDelete]  //succesfully working
+        [Route("delete/{Childid}")]
         public async Task DeleteChild(int Childid)
         {
             await _childService.DeleteChild(Childid);
