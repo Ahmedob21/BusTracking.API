@@ -65,7 +65,7 @@ namespace BusTracking.Infra.Service
             return await _userRepository.GetUserById(userid);
         }
 
-        public async Task UpdateUser(User user)
+        public async Task UpdateUser(UpdateUser user)
         {
             await _userRepository.UpdateUser(user);
         }

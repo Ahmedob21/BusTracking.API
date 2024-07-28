@@ -13,7 +13,7 @@ namespace BusTracking.Core.IRepository
         Task<List<UserResult>> GetAllUser();
         Task<User> GetUserById(int userid);
         Task CreateUser(UserModel userModel);
-        Task UpdateUser(User user);
+        Task UpdateUser(UpdateUser user);
 
         Task DeleteUser(int userid);
     }

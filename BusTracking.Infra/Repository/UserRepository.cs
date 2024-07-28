@@ -23,21 +23,21 @@ namespace BusTracking.Infra.Repository
         public async Task CreateUser(UserModel userModel )
         {
             var param = new DynamicParameters();
-            param.Add("Firstname", userModel.Firstname, dbType: DbType.String, direction: ParameterDirection.Input);
-            param.Add("Lastname", userModel.Lastname, dbType: DbType.String, direction: ParameterDirection.Input);
-            param.Add("Username", userModel.Username, dbType: DbType.String, direction: ParameterDirection.Input);
-            param.Add("Password", userModel.Password, dbType: DbType.String, direction: ParameterDirection.Input);
-            param.Add("Email", userModel.Email, dbType: DbType.String, direction: ParameterDirection.Input);
-            param.Add("Phone", userModel.Phone, dbType: DbType.String, direction: ParameterDirection.Input);
-            param.Add("Address", userModel.Address, dbType: DbType.String, direction: ParameterDirection.Input);
-            param.Add("Roleid", userModel.Roleid, dbType: DbType.Int32, direction: ParameterDirection.Input);
-            param.Add("Gender", userModel.Gender, dbType: DbType.String, direction: ParameterDirection.Input);
-            param.Add("Imagepath", userModel.Imagepath, dbType: DbType.String, direction: ParameterDirection.Input);
-            param.Add("UserId", dbType: DbType.Int32, direction: ParameterDirection.Output);
+            param.Add("First_name", userModel.Firstname, dbType: DbType.String, direction: ParameterDirection.Input);
+            param.Add("Last_name", userModel.Lastname, dbType: DbType.String, direction: ParameterDirection.Input);
+            param.Add("User_name", userModel.Username, dbType: DbType.String, direction: ParameterDirection.Input);
+            param.Add("Pass", userModel.Password, dbType: DbType.String, direction: ParameterDirection.Input);
+            param.Add("E_mail", userModel.Email, dbType: DbType.String, direction: ParameterDirection.Input);
+            param.Add("Phone_num", userModel.Phone, dbType: DbType.String, direction: ParameterDirection.Input);
+            param.Add("addres", userModel.Address, dbType: DbType.String, direction: ParameterDirection.Input);
+            param.Add("Role_id", userModel.Roleid, dbType: DbType.Int32, direction: ParameterDirection.Input);
+            param.Add("Gender_name", userModel.Gender, dbType: DbType.String, direction: ParameterDirection.Input);
+            param.Add("Image_path", userModel.Imagepath, dbType: DbType.String, direction: ParameterDirection.Input);
+            param.Add("User_Id", dbType: DbType.Int32, direction: ParameterDirection.Output);
 
-            await _dbContext.Connection.ExecuteAsync("User_Package.Create_User", param, commandType: CommandType.StoredProcedure);
+            await _dbContext.Connection.ExecuteAsync("USER__PACKAGE.create_user_", param, commandType: CommandType.StoredProcedure);
 
-            userModel.Userid = param.Get<int>("UserId");
+            userModel.Userid = param.Get<int>("User_Id");
         }
 
 
@@ -63,18 +63,17 @@ namespace BusTracking.Infra.Repository
             return result.SingleOrDefault();
         }
 
-        public async Task UpdateUser(User user)
+        public async Task UpdateUser(UpdateUser user)
         {
             var param = new DynamicParameters();
-            param.Add("u_userID", user.Userid, dbType: DbType.String, direction: ParameterDirection.Input);
-            param.Add("c_firstname", user.Firstname, dbType: DbType.String, direction: ParameterDirection.Input);
-            param.Add("c_lastname", user.Lastname, dbType: DbType.String, direction: ParameterDirection.Input);
-            param.Add("c_address", user.Address, dbType: DbType.String, direction: ParameterDirection.Input);
-            param.Add("c_username", user.Username, dbType: DbType.String, direction: ParameterDirection.Input);
-            param.Add("c_imagepath", user.Imagepath, dbType: DbType.String, direction: ParameterDirection.Input);
-            param.Add("c_phone", user.Phone, dbType: DbType.Int32, direction: ParameterDirection.Input);
-            param.Add("c_roleid", user.Roleid, dbType: DbType.Int32, direction: ParameterDirection.Input);
-            param.Add("c_gender", user.Gender, dbType: DbType.String, direction: ParameterDirection.Input);
+            param.Add("u_userID", user.Userid, dbType: DbType.Int32, direction: ParameterDirection.Input);
+            param.Add("u_firstname", user.Firstname, dbType: DbType.String, direction: ParameterDirection.Input);
+            param.Add("u_lastname", user.Lastname, dbType: DbType.String, direction: ParameterDirection.Input);
+            param.Add("u_address", user.Address, dbType: DbType.String, direction: ParameterDirection.Input);
+            param.Add("u_username", user.Username, dbType: DbType.String, direction: ParameterDirection.Input);
+            param.Add("u_imagepath", user.Imagepath, dbType: DbType.String, direction: ParameterDirection.Input);
+            param.Add("u_phone", user.Phone, dbType: DbType.String, direction: ParameterDirection.Input);           
+            param.Add("u_gender", user.Gender, dbType: DbType.String, direction: ParameterDirection.Input);
             await _dbContext.Connection.ExecuteAsync("user__package.update_user_", param, commandType: CommandType.StoredProcedure);
 
         }

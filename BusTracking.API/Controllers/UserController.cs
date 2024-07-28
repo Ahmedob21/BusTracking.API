@@ -18,7 +18,7 @@ namespace BusTracking.API.Controllers
             _userService = userService;
         }
 
-        public async Task CreateUser(UserModel userModel)
+        public async Task CreateUser([FromBody]UserModel userModel)
         {
             await _userService.CreateUser(userModel);
         }
@@ -53,7 +53,7 @@ namespace BusTracking.API.Controllers
             return await _userService.GetUserById(userId);
         }
         [HttpPut]
-        public async Task UpdateUser(User user)
+        public async Task UpdateUser([FromBody]UpdateUser user)
         {
             await _userService.UpdateUser(user);
         }
