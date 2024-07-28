@@ -23,6 +23,28 @@ namespace BusTracking.API.Controllers
             await _userService.CreateUser(userModel);
         }
 
+
+
+
+        [HttpGet]
+        [Route("CountTeachers")]
+        public async Task<Int32> CountTeachers()
+        {
+            return _userService.GetAllTeachers().Result.Count();
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
         [HttpGet]
         public async Task<List<UserResult>> GetAllUser()
         {
