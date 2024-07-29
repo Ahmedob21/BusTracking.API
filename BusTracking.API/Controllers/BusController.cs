@@ -19,7 +19,7 @@ namespace BusTracking.API.Controllers
 
 
         [HttpPost]
-        public async Task CreateBus(bus bus)
+        public async Task CreateBus([FromBody]bus bus)
         {
             await _busService.CreateBus(bus);
         }
