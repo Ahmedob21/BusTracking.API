@@ -10,6 +10,7 @@ namespace BusTracking.Core.Data
             Buslocations = new HashSet<Buslocation>();
             Busroutes = new HashSet<Busroute>();
             Children = new HashSet<Child>();
+            Stops = new HashSet<Stop>();
         }
 
         public decimal Busid { get; set; }
@@ -23,5 +24,6 @@ namespace BusTracking.Core.Data
         public virtual ICollection<Buslocation> Buslocations { get; set; }
         public virtual ICollection<Busroute> Busroutes { get; set; }
         public virtual ICollection<Child> Children { get; set; }
+        public virtual ICollection<Stop> Stops { get; set; }
     }
 }
