@@ -26,6 +26,7 @@ namespace BusTracking.Core.Data
         public virtual DbSet<Notification> Notifications { get; set; } = null!;
         public virtual DbSet<Pagecontent> Pagecontents { get; set; } = null!;
         public virtual DbSet<Role> Roles { get; set; } = null!;
+        public virtual DbSet<Stop> Stops { get; set; } = null!;
         public virtual DbSet<Testimonial> Testimonials { get; set; } = null!;
         public virtual DbSet<User> Users { get; set; } = null!;
         public virtual DbSet<bus> Buses { get; set; } = null!;
@@ -35,7 +36,7 @@ namespace BusTracking.Core.Data
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseOracle("User Id=C##FinalProject;PASSWORD=Test321;DATA SOURCE=localhost:1521/xe");
+                optionsBuilder.UseOracle("USER ID=C##FinalProject;PASSWORD=Test321;DATA SOURCE=localhost:1521/xe");
             }
         }
 
@@ -382,6 +383,49 @@ namespace BusTracking.Core.Data
                     .HasMaxLength(50)
                     .IsUnicode(false)
                     .HasColumnName("ROLENAME");
+            });
+
+            modelBuilder.Entity<Stop>(entity =>
+            {
+                entity.ToTable("STOPS");
+
+                entity.Property(e => e.Stopid)
+                    .HasColumnType("NUMBER")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnName("STOPID");
+
+                entity.Property(e => e.Addeddate)
+                    .HasColumnType("TIMESTAMP(6) WITH TIME ZONE")
+                    .HasColumnName("ADDEDDATE")
+                    .HasDefaultValueSql("SYSTIMESTAMP");
+
+                entity.Property(e => e.Busid)
+                    .HasColumnType("NUMBER")
+                    .HasColumnName("BUSID");
+
+                entity.Property(e => e.Enddate)
+                    .HasColumnType("TIMESTAMP(6) WITH TIME ZONE")
+                    .HasColumnName("ENDDATE")
+                    .HasDefaultValueSql("SYSTIMESTAMP");
+
+                entity.Property(e => e.Latitude)
+                    .HasColumnType("FLOAT")
+                    .HasColumnName("LATITUDE");
+
+                entity.Property(e => e.Longitude)
+                    .HasColumnType("FLOAT")
+                    .HasColumnName("LONGITUDE");
+
+                entity.Property(e => e.Stopname)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("STOPNAME");
+
+                entity.HasOne(d => d.Bus)
+                    .WithMany(p => p.Stops)
+                    .HasForeignKey(d => d.Busid)
+                    .OnDelete(DeleteBehavior.SetNull)
+                    .HasConstraintName("FK_STOPS");
             });
 
             modelBuilder.Entity<Testimonial>(entity =>
