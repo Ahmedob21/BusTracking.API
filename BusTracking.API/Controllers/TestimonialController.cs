@@ -1,4 +1,5 @@
 ﻿using BusTracking.Core.Data;
+using BusTracking.Core.DTO;
 using BusTracking.Core.IService;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -31,13 +32,13 @@ namespace BusTracking.API.Controllers
         }
 
         [HttpGet]
-        public async Task<List<Testimonial>> GetAllTestimonial()
+        public async Task<List<TestimonialModel>> GetAllTestimonial()
         {
             return await _testimonialService.GetAllTestimonial();
         }
 
         [HttpGet("{testimonialid}")]
-        public async Task<Testimonial> GetTestimonialById(int testimonialid)
+        public async Task<TestimonialModel> GetTestimonialById(int testimonialid)
         {
             return await _testimonialService.GetTestimonialById(testimonialid);
         }

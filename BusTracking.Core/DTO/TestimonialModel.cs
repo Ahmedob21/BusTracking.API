@@ -11,8 +11,10 @@ namespace BusTracking.Core.DTO
 
         public decimal Testimonialid { get; set; }
         public string Message { get; set; } = null!;
-        public decimal? PublisherId { get; set; }
+        public decimal? Publisher_Id { get; set; }
         public string Status { get; set; } = null!;
+        public string Full_Name { get; set; } = null!;
+
 
 
 

@@ -33,17 +33,19 @@ namespace BusTracking.API.Controllers
             return _userService.GetAllTeachers().Result.Count();
         }
 
-
-
-
-
-
-
-
-
-
-
-
+        [HttpGet]
+        [Route("CountDrivers")]
+        public async Task<Int32> CountDrivers()
+        {
+            return _userService.GetAllDrivers().Result.Count();
+        }
+        [HttpGet]
+        [Route("CountParents")]
+        public async Task<Int32> CountParents()
+        {
+            return _userService.GetAllParents().Result.Count();
+        }
+       
 
         [HttpGet]
         public async Task<List<UserResult>> GetAllUser()

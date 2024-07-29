@@ -398,7 +398,7 @@ namespace BusTracking.Core.Data
                     .IsUnicode(false)
                     .HasColumnName("MESSAGE");
 
-                entity.Property(e => e.PublisherId)
+                entity.Property(e => e.Publisher_Id)
                     .HasColumnType("NUMBER")
                     .HasColumnName("PUBLISHER_ID");
 
@@ -409,7 +409,7 @@ namespace BusTracking.Core.Data
 
                 entity.HasOne(d => d.Publisher)
                     .WithMany(p => p.Testimonials)
-                    .HasForeignKey(d => d.PublisherId)
+                    .HasForeignKey(d => d.Publisher_Id)
                     .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_PUBLISHER_ID");
             });

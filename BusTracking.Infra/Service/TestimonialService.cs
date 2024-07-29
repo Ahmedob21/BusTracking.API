@@ -1,4 +1,5 @@
 ﻿using BusTracking.Core.Data;
+using BusTracking.Core.DTO;
 using BusTracking.Core.IRepository;
 using BusTracking.Core.IService;
 using System;
@@ -28,12 +29,12 @@ namespace BusTracking.Infra.Service
             await _testimonialRepository.DeleteTestimonial(testimonialid);
         }
 
-        public async Task<List<Testimonial>> GetAllTestimonial()
+        public async Task<List<TestimonialModel>> GetAllTestimonial()
         {
            return await _testimonialRepository.GetAllTestimonial();
         }
 
-        public async Task<Testimonial> GetTestimonialById(int testimonialid)
+        public async Task<TestimonialModel> GetTestimonialById(int testimonialid)
         {
             return await _testimonialRepository.GetTestimonialById(testimonialid);
         }
