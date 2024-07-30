@@ -42,7 +42,7 @@ namespace BusTracking.API
             builder.Services.AddScoped<ITestimonialService, TestimonialService>();
             builder.Services.AddScoped<ILoginService, LoginService>();
             builder.Services.AddScoped<IUpdateProfileService, UpdateProfileService>();
-
+            builder.Services.AddScoped<IStopsService, StopsService>();
 
             
 
@@ -56,7 +56,7 @@ namespace BusTracking.API
             builder.Services.AddScoped<ITestimonialRepository, TestimonialRepository>();
             builder.Services.AddScoped<ILoginRepository, LoginRepository>();
             builder.Services.AddScoped<IUpdateProfileRepository, UpdateProfileRepository>();
-
+            builder.Services.AddScoped<IStopsRepository, StopsRepository>();
 
 
             builder.Services.AddAuthentication(x =>
