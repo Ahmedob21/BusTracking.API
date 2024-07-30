@@ -26,7 +26,7 @@ namespace BusTracking.Infra.Repository
         {
             var param = new DynamicParameters(); ;
             param.Add("c_MESSAGE", testimonial.Message, dbType: DbType.String, direction: ParameterDirection.Input);
-            param.Add("c_PUBLISHER_ID", testimonial.PublisherId, dbType: DbType.Int32, direction: ParameterDirection.Input);
+            param.Add("c_PUBLISHER_ID", testimonial.Publisher_Id, dbType: DbType.Int32, direction: ParameterDirection.Input);
             param.Add("c_STATUS", testimonial.Status, dbType: DbType.String, direction: ParameterDirection.Input);
             await _dbContext.Connection.ExecuteAsync("TESTIMONIAL_package.create_TESTIMONIAL", param, commandType: CommandType.StoredProcedure);
 
@@ -61,7 +61,7 @@ namespace BusTracking.Infra.Repository
             var param = new DynamicParameters();
             param.Add("u_TESTIMONIALID", testimonial.Testimonialid, dbType: DbType.Int32, direction: ParameterDirection.Input);
             param.Add("u_MESSAGE", testimonial.Message, dbType: DbType.String, direction: ParameterDirection.Input);
-            param.Add("u_PUBLISHER_ID", testimonial.PublisherId, dbType: DbType.Int32, direction: ParameterDirection.Input);
+            param.Add("u_PUBLISHER_ID", testimonial.Publisher_Id, dbType: DbType.Int32, direction: ParameterDirection.Input);
             param.Add("u_STATUS", testimonial.Status, dbType: DbType.String, direction: ParameterDirection.Input);
             await _dbContext.Connection.ExecuteAsync("TESTIMONIAL_package.update_TESTIMONIAL", param, commandType: CommandType.StoredProcedure);
 
