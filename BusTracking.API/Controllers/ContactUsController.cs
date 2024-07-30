@@ -22,7 +22,7 @@ namespace BusTracking.API.Controllers
             await _contactUsService.CreateContactus(contactu);
         }
 
-        [HttpDelete]
+        [HttpDelete ("{contactusid}")]
         public async Task DeleteContactus(int contactusid)
         {
             await _contactUsService.DeleteContactus(contactusid);
