@@ -19,7 +19,7 @@ namespace BusTracking.Infra.Repository
         }
         public async Task<Buslocation> GetLatestLocation(int busId)
         {
-            return await _context.Buslocations.Where(bus=>bus.BusId == busId).OrderByDescending(Cdate => Cdate.Adate).SingleOrDefaultAsync();
+            return await _context.Buslocations.Where(bus => bus.BusId == busId).OrderByDescending(Cdate => Cdate.Adate).SingleOrDefaultAsync();
         }
 
 
