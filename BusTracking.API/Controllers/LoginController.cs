@@ -28,7 +28,8 @@ namespace BusTracking.API.Controllers
 
             else
             {
-                return Ok(result);
+                var token = result.Result.Token;
+                return Ok(token);
             }
         }
     }
