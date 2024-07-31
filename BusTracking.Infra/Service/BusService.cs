@@ -19,6 +19,10 @@ namespace BusTracking.Infra.Service
             _busRepository = busRepository;
         }
 
+        public async Task<bus?> GetBusForParent(decimal parentId)
+        {
+            return await _busRepository.GetBusesForParent(parentId);
+        }
         public async Task CreateBus(bus bus)
         {
             await _busRepository.CreateBus(bus);

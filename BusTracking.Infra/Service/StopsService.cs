@@ -18,29 +18,29 @@ namespace BusTracking.Infra.Service
             _stopsRepository = stopsRepository;
         }
 
-        public async Task CreateStop(Stop stop)
+        public Task<IEnumerable<Stop>> GetBusStops(int busId)
         {
-          await  _stopsRepository.CreateStop(stop);
+            return _stopsRepository.GetBusStops(busId);
         }
 
-        public async Task DeleteStop(int stopid)
+        public Task<Stop> GetBusStop(decimal stopId)
         {
-            await _stopsRepository.DeleteStop(stopid);
+            return _stopsRepository.GetBusStop(stopId);
         }
 
-        public async Task<List<Stop>> GetAllStops()
+        public Task AddBusStop(Stop busStop)
         {
-            return  await _stopsRepository.GetAllStops();
+            return _stopsRepository.AddBusStop(busStop);
         }
 
-        public async Task<Stop> GetStopById(int stopid)
+        public Task UpdateBusStop(Stop busStop)
         {
-            return await _stopsRepository.GetStopById(stopid);
+            return _stopsRepository.UpdateBusStop(busStop);
         }
 
-        public async Task UpdateStop(Stop stop)
+        public Task DeleteBusStop(decimal stopId)
         {
-            await _stopsRepository.UpdateStop(stop);
+            return _stopsRepository.DeleteBusStop(stopId);
         }
     }
 }

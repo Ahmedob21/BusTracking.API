@@ -9,10 +9,10 @@ namespace BusTracking.Core.IService
 {
     public interface IStopsService
     {
-        Task CreateStop(Stop stop);
-        Task UpdateStop(Stop stop);
-        Task DeleteStop(int stopid);
-        Task<Stop> GetStopById(int stopid);
-        Task<List<Stop>> GetAllStops();
+        Task<IEnumerable<Stop>> GetBusStops(int busId);
+        Task<Stop> GetBusStop(decimal stopId);
+        Task AddBusStop(Stop busStop);
+        Task UpdateBusStop(Stop busStop);
+        Task DeleteBusStop(decimal stopId);
     }
 }

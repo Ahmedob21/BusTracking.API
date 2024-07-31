@@ -45,10 +45,9 @@ namespace BusTracking.API
             builder.Services.AddScoped<ILoginService, LoginService>();
             builder.Services.AddScoped<IUpdateProfileService, UpdateProfileService>();
             builder.Services.AddScoped<IStopsService, StopsService>();
+            builder.Services.AddScoped<IBusLocationService, BusLocationService>();
 
             
-
-
 
 
             //Repository
@@ -62,12 +61,12 @@ namespace BusTracking.API
             builder.Services.AddScoped<ILoginRepository, LoginRepository>();
             builder.Services.AddScoped<IUpdateProfileRepository, UpdateProfileRepository>();
             builder.Services.AddScoped<IStopsRepository, StopsRepository>();
+            builder.Services.AddScoped<IBusLocationRepository, BusLocationRepository>();
 
 
 
 
-
-
+            
 
 
             builder.Services.AddAuthentication(x =>

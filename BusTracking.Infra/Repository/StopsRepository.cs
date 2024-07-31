@@ -16,57 +16,45 @@ namespace BusTracking.Infra.Repository
 {
     public class StopsRepository : IStopsRepository
     {
+        private readonly ModelContext _context;
 
-        private readonly IDbContext _dbContext;
-
-        public StopsRepository(IDbContext dbContext)
+        public StopsRepository(ModelContext context)
         {
-            _dbContext = dbContext;
+            _context = context;
         }
 
-        public async Task CreateStop(Stop stop)
+        public async Task<IEnumerable<Stop>> GetBusStops(int busId)
         {
-            var param = new DynamicParameters();
-            param.Add("c_STOPNAME", stop.Stopname, dbType: DbType.String, direction: ParameterDirection.Input);
-            param.Add("c_LATITUDE", stop.Latitude, dbType: DbType.Double, direction: ParameterDirection.Input);
-            param.Add("c_LONGITUDE", stop.Longitude, dbType: DbType.Double, direction: ParameterDirection.Input);
-            param.Add("c_BUSID", stop.Busid, dbType: DbType.Int32, direction: ParameterDirection.Input);
-
-           await _dbContext.Connection.ExecuteAsync("STOPS_package.create_STOPS", param, commandType: CommandType.StoredProcedure);
-
-
+            return await _context.Stops.Where(bs => bs.Busid == busId).ToListAsync();
         }
 
-        public async Task DeleteStop(int stopid)
+        public async Task<Stop> GetBusStop(decimal stopId)
         {
-            var param = new DynamicParameters();
-            param.Add("d_STOPID", stopid, dbType: DbType.Int32, direction: ParameterDirection.Input);
-            await _dbContext.Connection.ExecuteAsync("STOPS_package.delete_STOPS", param, commandType: CommandType.StoredProcedure);
+            return await _context.Stops.FindAsync(stopId);
         }
 
-        public async Task<List<Stop>> GetAllStops()
+        public async Task AddBusStop(Stop busStop)
         {
-            var result = await _dbContext.Connection.QueryAsync<Stop>("STOPS_package.get_all_STOPS", commandType: CommandType.StoredProcedure);
-            return result.ToList();
+            _context.Stops.Add(busStop);
+            await _context.SaveChangesAsync();
         }
 
-        public async Task<Stop> GetStopById(int stopid)
+        public async Task UpdateBusStop(Stop busStop)
         {
-            var param = new DynamicParameters();
-            param.Add("gid_STOPID", stopid, dbType: DbType.Int32, direction: ParameterDirection.Input);
-            var result = await _dbContext.Connection.QueryAsync<Stop>("STOPS_package.gid_STOPS_by_id", param, commandType: CommandType.StoredProcedure);
-            return result.SingleOrDefault();
+            _context.Entry(busStop).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
         }
 
-        public async Task UpdateStop(Stop stop)
+        public async Task DeleteBusStop(decimal stopId)
         {
-            var param = new DynamicParameters();
-            param.Add("u_STOPID", stop.Stopid, dbType: DbType.Int32, direction: ParameterDirection.Input);
-            param.Add("c_STOPNAME", stop.Stopname, dbType: DbType.String, direction: ParameterDirection.Input);
-            param.Add("c_LATITUDE", stop.Latitude, dbType: DbType.Double, direction: ParameterDirection.Input);
-            param.Add("c_LONGITUDE", stop.Longitude, dbType: DbType.Double, direction: ParameterDirection.Input);
-            param.Add("c_BUSID", stop.Busid, dbType: DbType.Int32, direction: ParameterDirection.Input);
-            await _dbContext.Connection.ExecuteAsync("STOPS_package.update_STOPS", param, commandType: CommandType.StoredProcedure);
+            var busStop = await _context.Stops.FindAsync(stopId);
+            if (busStop != null)
+            {
+                _context.Stops.Remove(busStop);
+                await _context.SaveChangesAsync();
+            }
         }
+
+
     }
 }

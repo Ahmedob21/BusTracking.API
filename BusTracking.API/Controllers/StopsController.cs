@@ -17,41 +17,60 @@ namespace BusTracking.API.Controllers
         }
 
 
+
+        [HttpGet("{busId}")]
+        public async Task<ActionResult<IEnumerable<Stop>>> GetBusStops(int busId)
+        {
+            var busStops = await _stopsService.GetBusStops(busId);
+            return Ok(busStops);
+        }
+
+        [HttpGet("stop/{stopId}")]
+        public async Task<ActionResult<Stop>> GetBusStop(decimal stopId)
+        {
+            var busStop = await _stopsService.GetBusStop(stopId);
+            if (busStop == null)
+            {
+                return NotFound();
+            }
+            return Ok(busStop);
+        }
+
         [HttpPost]
-        public async Task CreateStop(Stop stop) 
+        public async Task<IActionResult> AddBusStop([FromBody] Stop busStop)
         {
-            await _stopsService.CreateStop(stop);   
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            await _stopsService.AddBusStop(busStop);
+            return CreatedAtAction(nameof(GetBusStop), new { stopId = busStop.Stopid }, busStop);
         }
 
-
-
-        [HttpPut]
-        public async Task UpdateStop(Stop stop) 
-        { 
-            await _stopsService.UpdateStop(stop);
-        }
-
-
-        [HttpDelete]
-        public async Task DeleteStop(int stopid) 
+        [HttpPut("{stopId}")]
+        public async Task<IActionResult> UpdateBusStop(decimal stopId, [FromBody] Stop busStop)
         {
-            await _stopsService.DeleteStop(stopid); 
+            if (stopId != busStop.Stopid)
+            {
+                return BadRequest();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            await _stopsService.UpdateBusStop(busStop);
+            return NoContent();
         }
 
-
-        [HttpGet ("{stopid}")]
-        public async Task<Stop> GetStopById(int stopid) 
+        [HttpDelete("{stopId}")]
+        public async Task<IActionResult> DeleteBusStop(decimal stopId)
         {
-            return await _stopsService.GetStopById(stopid);
+            await _stopsService.DeleteBusStop(stopId);
+            return NoContent();
         }
-
-
-        [HttpGet]
-        public async Task<List<Stop>> GetAllStops()
-        {
-            return await _stopsService.GetAllStops();
-        }
-
 
 
 

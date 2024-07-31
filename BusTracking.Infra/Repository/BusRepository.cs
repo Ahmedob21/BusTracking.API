@@ -3,6 +3,7 @@ using BusTracking.Core.DTO;
 using BusTracking.Core.ICommon;
 using BusTracking.Core.IRepository;
 using Dapper;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -15,13 +16,19 @@ namespace BusTracking.Infra.Repository
     public class BusRepository  : IBusRepository
     {
         private readonly IDbContext _dbContext;
-
-        public BusRepository(IDbContext dBContext)
+        private readonly ModelContext _context;
+        public BusRepository(IDbContext dBContext, ModelContext context)
         {
             _dbContext = dBContext;
+            _context = context;
         }
 
-
+        public async Task<bus?> GetBusesForParent(decimal parentId)
+        {
+            return await _context.Buses
+                .Where(b => b.Children.Any(c => c.Parentid == parentId))
+                .SingleOrDefaultAsync();
+        }
         public async Task CreateBus(bus bus)
         {
             var param = new DynamicParameters();
