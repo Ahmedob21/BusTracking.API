@@ -1,3 +1,4 @@
+using BusTracking.Core.Data;
 using BusTracking.Core.ICommon;
 using BusTracking.Core.IRepository;
 using BusTracking.Core.IService;
@@ -5,6 +6,7 @@ using BusTracking.Infra.Common;
 using BusTracking.Infra.Repository;
 using BusTracking.Infra.Service;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
@@ -23,8 +25,8 @@ namespace BusTracking.API
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-
-            builder.Services.AddScoped<IDbContext, DbContext>();
+            builder.Services.AddDbContext<ModelContext>(x => x.UseOracle(builder.Configuration.GetConnectionString("DBConnectionString")));
+            builder.Services.AddScoped<IDbContext, Infra.Common.DbContext>();
 
 
 
@@ -46,6 +48,9 @@ namespace BusTracking.API
 
             
 
+
+
+
             //Repository
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<IBusRepository, BusRepository>();
@@ -57,6 +62,12 @@ namespace BusTracking.API
             builder.Services.AddScoped<ILoginRepository, LoginRepository>();
             builder.Services.AddScoped<IUpdateProfileRepository, UpdateProfileRepository>();
             builder.Services.AddScoped<IStopsRepository, StopsRepository>();
+
+
+
+
+
+
 
 
             builder.Services.AddAuthentication(x =>
