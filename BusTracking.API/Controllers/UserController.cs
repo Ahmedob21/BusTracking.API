@@ -17,7 +17,7 @@ namespace BusTracking.API.Controllers
         {
             _userService = userService;
         }
-
+        [HttpPost]
         public async Task CreateUser([FromBody]UserModel userModel)
         {
             await _userService.CreateUser(userModel);
@@ -90,14 +90,14 @@ namespace BusTracking.API.Controllers
 
 
 
-
+        
         [HttpPost]
         [Route("UploadImage")]
         public string UploadImage()
         {
             var file = Request.Form.Files[0];
             var fileName = Guid.NewGuid().ToString() + "_" + file.FileName;
-            var fullPath = Path.Combine("C:\\Users\\ahmad\\OneDrive\\Desktop\\angular projecr\\BusTrackingAngular\\src\\assets\\Images", fileName);
+            var fullPath = Path.Combine("C:\\Users\\ahmad\\OneDrive\\Desktop\\mohd\\BusTrackingAngular\\src\\assets\\Images", fileName);
             using (var stream = new FileStream(fullPath, FileMode.Create))
             {
                 file.CopyTo(stream);
