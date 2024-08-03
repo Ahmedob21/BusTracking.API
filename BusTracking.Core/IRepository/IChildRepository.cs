@@ -11,6 +11,7 @@ namespace BusTracking.Core.IRepository
     public interface IChildRepository
     {
         Task<List<ChidrenResult>> GetAllChildren();
+        Task<List<ChidrenResult>> GetChildrenByParentId(int parentid);
         Task<ChidrenResult> GetChildById(int Childid);
         Task CreateChild(Child child);
         Task UpdateChild(Child child);

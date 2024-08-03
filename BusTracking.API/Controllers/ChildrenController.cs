@@ -11,6 +11,7 @@ namespace BusTracking.API.Controllers
     public class ChildrenController : ControllerBase
     {
         private readonly IChildService _childService;
+        
 
         public ChildrenController(IChildService childService)
         {
@@ -20,6 +21,12 @@ namespace BusTracking.API.Controllers
         public async Task<List<ChidrenResult>> GetAllChildren()
         {
             return await _childService.GetAllChildren();
+        }
+        [HttpGet]        //succesfully working
+        [Route("GetChildrenByParentId/{Parentid}")]
+        public async Task<List<ChidrenResult>> GetChildrenByParentId(int parentid)
+        {
+            return await _childService.GetChildrenByParentId(parentid);
         }
 
         [HttpPost]             //succesfully working

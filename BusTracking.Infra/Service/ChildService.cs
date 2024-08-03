@@ -13,9 +13,10 @@ namespace BusTracking.Infra.Service
     public class ChildService : IChildService
     {
         private readonly IChildRepository _childRepository;
-
-        public ChildService(IChildRepository childRepository)
+        private readonly ModelContext _modelContext;
+        public ChildService(IChildRepository childRepository, ModelContext modelContext)
         {
+            _modelContext = modelContext;
             _childRepository = childRepository;
         }
 
@@ -32,6 +33,10 @@ namespace BusTracking.Infra.Service
         public Task<List<ChidrenResult>> GetAllChildren()
         {
             return _childRepository.GetAllChildren();
+        }
+        public Task<List<ChidrenResult>> GetChildrenByParentId(int parentid)
+        {
+            return _childRepository.GetChildrenByParentId(parentid);
         }
 
         public Task<ChidrenResult> GetChildById(int Childid)

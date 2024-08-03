@@ -15,10 +15,11 @@ namespace BusTracking.Infra.Repository
     public class ChildRepository : IChildRepository
     {
         private readonly IDbContext _dbContext;
-
-        public ChildRepository(IDbContext dbContext)
+        private readonly ModelContext _context;
+        public ChildRepository(IDbContext dBContext, ModelContext context)
         {
-            _dbContext = dbContext;
+            _dbContext = dBContext;
+            _context = context;
         }
 
         public async Task CreateChild(Child child)
@@ -44,7 +45,12 @@ namespace BusTracking.Infra.Repository
             var result = await _dbContext.Connection.QueryAsync<ChidrenResult>("Children_package.get_all_Children", commandType: CommandType.StoredProcedure);
             return result.ToList();
         }
-
+        public async Task<List<ChidrenResult>> GetChildrenByParentId(int parentid)
+        {
+            var result = await _dbContext.Connection.QueryAsync<ChidrenResult>("Children_package.get_all_Children", commandType: CommandType.StoredProcedure);
+            result=result.Where(x=>x.Parentid==parentid);
+            return result.ToList();
+        }
         public async Task<ChidrenResult> GetChildById(int Childid)
         {
             var param = new DynamicParameters();
