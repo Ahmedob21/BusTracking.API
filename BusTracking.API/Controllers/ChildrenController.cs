@@ -1,6 +1,8 @@
-﻿using BusTracking.Core.Data;
+﻿using System.ComponentModel.DataAnnotations;
+using BusTracking.Core.Data;
 using BusTracking.Core.DTO;
 using BusTracking.Core.IService;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,6 +20,7 @@ namespace BusTracking.API.Controllers
             _childService = childService;
         }
         [HttpGet]               //succesfully working
+        
         public async Task<List<ChidrenResult>> GetAllChildren()
         {
             return await _childService.GetAllChildren();
