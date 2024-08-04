@@ -1,4 +1,5 @@
 ﻿using BusTracking.Core.Data;
+using BusTracking.Core.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,8 @@ namespace BusTracking.Core.IRepository
 {
     public interface IBusLocationRepository
     {
-        Task<Buslocation> GetLatestLocation(int busId);
+        Task<AllBusesLocation> GetLatestLocation(decimal busId);
         Task UpdateBusLocation(Buslocation busLocation);
+        Task<IEnumerable<AllBusesLocation>> GetAllBusesLocations();
     }
 }

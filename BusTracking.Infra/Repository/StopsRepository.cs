@@ -23,14 +23,42 @@ namespace BusTracking.Infra.Repository
             _context = context;
         }
 
-        public async Task<IEnumerable<Stop>> GetBusStops(int busId)
+        public async Task<IEnumerable<AllStopsForBus>> GetBusStops(decimal busId)
         {
-            return await _context.Stops.Where(bs => bs.Busid == busId).ToListAsync();
+            var stops = await _context.Stops
+                .Include(stop => stop.Bus)
+                .Where(stop => stop.Busid == busId)
+                .Select(stop => new AllStopsForBus
+                {
+                    Stopid = stop.Stopid,
+                    Stopname = stop.Stopname,
+                    Latitude = stop.Latitude,
+                    Longitude = stop.Longitude,
+                    Busid = stop.Busid,
+                    Busnumber = stop.Bus.Busnumber 
+                })
+                .ToListAsync();
+
+            return stops;
         }
 
-        public async Task<Stop> GetBusStop(decimal stopId)
+        public async Task<AllStopsForBus> GetBusStop(decimal stopId)
         {
-            return await _context.Stops.FindAsync(stopId);
+            var stop = await _context.Stops
+        .Include(s => s.Bus)
+        .Where(s => s.Stopid == stopId)
+        .Select(s => new AllStopsForBus
+        {
+            Stopid = s.Stopid,
+            Stopname = s.Stopname,
+            Latitude = s.Latitude,
+            Longitude = s.Longitude,
+            Busid = s.Busid,
+            Busnumber = s.Bus.Busnumber
+        })
+        .FirstOrDefaultAsync();
+
+            return stop;
         }
 
         public async Task AddBusStop(Stop busStop)

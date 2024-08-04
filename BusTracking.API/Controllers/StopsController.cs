@@ -1,4 +1,5 @@
 ﻿using BusTracking.Core.Data;
+using BusTracking.Core.DTO;
 using BusTracking.Core.IService;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -19,14 +20,16 @@ namespace BusTracking.API.Controllers
 
 
         [HttpGet("{busId}")]
-        public async Task<ActionResult<IEnumerable<Stop>>> GetBusStops(int busId)
+        [Route("BusStops/{busId}")]
+        public async Task<ActionResult<IEnumerable<AllStopsForBus>>> GetBusStops(decimal busId)
         {
             var busStops = await _stopsService.GetBusStops(busId);
             return Ok(busStops);
         }
 
-        [HttpGet("stop/{stopId}")]
-        public async Task<ActionResult<Stop>> GetBusStop(decimal stopId)
+        [HttpGet("{stopId}")]
+        [Route("Getstop/{stopId}")]
+        public async Task<ActionResult<AllStopsForBus>> GetBusStop(decimal stopId)
         {
             var busStop = await _stopsService.GetBusStop(stopId);
             if (busStop == null)

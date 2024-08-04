@@ -1,4 +1,5 @@
 ﻿using BusTracking.Core.Data;
+using BusTracking.Core.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +10,8 @@ namespace BusTracking.Core.IService
 {
     public interface IStopsService
     {
-        Task<IEnumerable<Stop>> GetBusStops(int busId);
-        Task<Stop> GetBusStop(decimal stopId);
+        Task<IEnumerable<AllStopsForBus>> GetBusStops(decimal busId);
+        Task<AllStopsForBus> GetBusStop(decimal stopId);
         Task AddBusStop(Stop busStop);
         Task UpdateBusStop(Stop busStop);
         Task DeleteBusStop(decimal stopId);

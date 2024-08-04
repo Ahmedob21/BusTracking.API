@@ -1,4 +1,5 @@
 ﻿using BusTracking.Core.Data;
+using BusTracking.Core.DTO;
 using BusTracking.Core.IRepository;
 using BusTracking.Core.IService;
 using System;
@@ -18,15 +19,18 @@ namespace BusTracking.Infra.Service
             _busLocationRepository = busLocationRepository;
         }
 
-
-        public Task<Buslocation> GetLatestLocation(int busId)
+        public async Task<IEnumerable<AllBusesLocation>> GetAllBusesLocations()
         {
-            return _busLocationRepository.GetLatestLocation(busId);
+          return  await _busLocationRepository.GetAllBusesLocations();
+        }
+        public async Task<AllBusesLocation> GetLatestLocation(decimal busId)
+        {
+            return await _busLocationRepository.GetLatestLocation(busId);
         }
 
-        public Task UpdateBusLocation(Buslocation busLocation)
+        public async Task UpdateBusLocation(Buslocation busLocation)
         {
-            return _busLocationRepository.UpdateBusLocation(busLocation);
+            await _busLocationRepository.UpdateBusLocation(busLocation);
         }
 
 

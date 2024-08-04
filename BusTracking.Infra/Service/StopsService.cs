@@ -1,4 +1,5 @@
 ﻿using BusTracking.Core.Data;
+using BusTracking.Core.DTO;
 using BusTracking.Core.IRepository;
 using BusTracking.Core.IService;
 using System;
@@ -18,12 +19,12 @@ namespace BusTracking.Infra.Service
             _stopsRepository = stopsRepository;
         }
 
-        public Task<IEnumerable<Stop>> GetBusStops(int busId)
+        public Task<IEnumerable<AllStopsForBus>> GetBusStops(decimal busId)
         {
             return _stopsRepository.GetBusStops(busId);
         }
 
-        public Task<Stop> GetBusStop(decimal stopId)
+        public Task<AllStopsForBus> GetBusStop(decimal stopId)
         {
             return _stopsRepository.GetBusStop(stopId);
         }

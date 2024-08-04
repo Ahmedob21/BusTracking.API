@@ -1,4 +1,5 @@
 ﻿using BusTracking.Core.Data;
+using BusTracking.Core.DTO;
 using BusTracking.Core.IRepository;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -17,11 +18,32 @@ namespace BusTracking.Infra.Repository
         {
             _context = context;
         }
-        public async Task<Buslocation> GetLatestLocation(int busId)
+        public async Task<AllBusesLocation> GetLatestLocation(decimal busId)
         {
-            return await _context.Buslocations.Where(bus => bus.BusId == busId).OrderByDescending(Cdate => Cdate.Adate).SingleOrDefaultAsync();
-        }
+            var Locations = await _context.Buslocations.Include(bus=>bus.Bus).Where(bus => bus.BusId == busId).SingleOrDefaultAsync();
+            return new AllBusesLocation
+            {
+                Busnumber = Locations.Bus.Busnumber,
+                Latitude = Locations.Latitude,
+                Longitude = Locations.Longitude,
+                Adate = Locations.Adate,
+                BusId = Locations.BusId
+            };
 
+        }
+        public async Task<IEnumerable<AllBusesLocation>> GetAllBusesLocations()
+        {
+            var locations = await _context.Buslocations.Include(bus => bus.Bus).ToListAsync();
+
+            return locations.Select(location => new AllBusesLocation
+            {
+                Busnumber = location.Bus.Busnumber,
+                Latitude = location.Latitude,
+                Longitude = location.Longitude,
+                Adate = location.Adate,
+                BusId = location.BusId
+            }).ToList();
+        }
 
         public async Task UpdateBusLocation(Buslocation busLocation)
         {
@@ -42,15 +64,6 @@ namespace BusTracking.Infra.Repository
             await _context.SaveChangesAsync();
         }
 
-
-
-
-
-
-
-
-
-
-
-        }
+      
+    }
 }
