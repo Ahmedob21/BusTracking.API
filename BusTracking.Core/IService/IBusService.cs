@@ -15,6 +15,6 @@ namespace BusTracking.Core.IService
         Task DeleteBus(int Busid);
         Task<bus> GetBusById(int Busid);
         Task<List<GetAllBuses>> GetAllBuses();
-        Task<bus?> GetBusForParent(decimal parentId);
+        
     }
 }

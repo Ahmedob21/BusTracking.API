@@ -23,6 +23,22 @@ namespace BusTracking.Infra.Service
         {
           return  await _busLocationRepository.GetAllBusesLocations();
         }
+
+        public async Task<AllBusesLocation> GetBusLocationByDriverId(decimal driverId)
+        {
+            return await _busLocationRepository.GetBusLocationByDriverId(driverId);
+        }
+
+        public async Task<AllBusesLocation> GetBusLocationByTeacherId(decimal teacherId)
+        {
+           return await _busLocationRepository.GetBusLocationByTeacherId(teacherId);
+        }
+
+        public async Task<AllBusesLocation> GetBusLocationForParent(decimal parentId)
+        {
+            return await _busLocationRepository.GetBusLocationForParent(parentId);
+        }
+
         public async Task<AllBusesLocation> GetLatestLocation(decimal busId)
         {
             return await _busLocationRepository.GetLatestLocation(busId);
@@ -32,6 +48,9 @@ namespace BusTracking.Infra.Service
         {
             await _busLocationRepository.UpdateBusLocation(busLocation);
         }
+
+
+
 
 
     }

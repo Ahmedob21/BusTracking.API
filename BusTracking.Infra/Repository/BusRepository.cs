@@ -23,12 +23,7 @@ namespace BusTracking.Infra.Repository
             _context = context;
         }
 
-        public async Task<bus?> GetBusesForParent(decimal parentId)
-        {
-            return await _context.Buses
-                .Where(b => b.Children.Any(c => c.Parentid == parentId))
-                .SingleOrDefaultAsync();
-        }
+      
         public async Task CreateBus(bus bus)
         {
             var param = new DynamicParameters();

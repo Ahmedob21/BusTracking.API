@@ -53,6 +53,90 @@ namespace BusTracking.API.Controllers
         }
 
 
+        [HttpGet("{teacherId}")]
+        [Route("GetBusLocationByTeacherId/{teacherId}")]
+        public async Task<IActionResult> GetBusLocationByTeacherId(decimal teacherId)
+        {
+            try
+            {
+                var location = await _busLocationService.GetBusLocationByTeacherId(teacherId);
+
+                if (location == null)
+                {
+                    return NotFound("Bus location not found.");
+                }
+
+                return Ok(location);
+            }
+            catch (InvalidOperationException ex)
+            {
+                
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+
+
+        [HttpGet("{driverId}")]
+        [Route("GetBusLocationByDriverId/{driverId}")]
+     
+        public async Task<IActionResult> GetBusLocationByDriverId(decimal driverId)
+        {
+            try
+            {
+                var location = await _busLocationService.GetBusLocationByDriverId(driverId);
+
+                if (location == null)
+                {
+                    return NotFound("Bus location not found.");
+                }
+
+                return Ok(location);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+
+
+        [HttpGet("{ParentId}")]
+        [Route("GetBusLocationForParent/{ParentId}")]
+        public async Task<IActionResult> GetBusLocationForParent(decimal parentId)
+        {
+            try
+            {
+                var location = await _busLocationService.GetBusLocationForParent(parentId);
+
+                if (location == null)
+                {
+                    return NotFound("Bus location not found.");
+                }
+
+                return Ok(location);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

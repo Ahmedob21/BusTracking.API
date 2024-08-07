@@ -64,6 +64,91 @@ namespace BusTracking.Infra.Repository
             await _context.SaveChangesAsync();
         }
 
-      
+        public async Task<AllBusesLocation> GetBusLocationByTeacherId(decimal teacherId)
+        {
+            var busCount = await _context.Buslocations.CountAsync(bus => bus.Bus.Teacherid == teacherId);
+
+            if (busCount > 1)
+            {
+                throw new InvalidOperationException("The teacher is associated with more than one bus.");
+            }
+
+            var result = await _context.Buslocations
+                .Where(bus => bus.Bus.Teacherid == teacherId)
+                .Select(bus => new AllBusesLocation
+                {
+                    Busnumber = bus.Bus.Busnumber,
+                    Latitude = bus.Latitude,
+                    Longitude = bus.Longitude,
+                    Adate = bus.Adate,
+                    BusId = bus.BusId
+                })
+                .SingleOrDefaultAsync();
+
+            return result;
+        }
+
+        public async Task<AllBusesLocation> GetBusLocationByDriverId(decimal driverId)
+        {
+            var busCount = await _context.Buslocations.CountAsync(bus => bus.Bus.Driverid == driverId);
+
+            if (busCount > 1)
+            {
+                throw new InvalidOperationException("The teacher is associated with more than one bus.");
+            }
+
+            var result = await _context.Buslocations
+                .Where(bus => bus.Bus.Driverid == driverId)
+                .Select(bus => new AllBusesLocation
+                {
+                    Busnumber = bus.Bus.Busnumber,
+                    Latitude = bus.Latitude,
+                    Longitude = bus.Longitude,
+                    Adate = bus.Adate,
+                    BusId = bus.BusId
+                })
+                .SingleOrDefaultAsync();
+
+            return result;
+        }
+
+        public async Task<AllBusesLocation> GetBusLocationForParent(decimal parentId)
+        {
+            // Get the bus ID associated with the parent's children
+            var busId = await _context.Children
+                                       .Where(child => child.Parentid == parentId)
+                                       .Select(child => child.Busid)
+                                       .FirstOrDefaultAsync();
+
+            // Handle the case where no bus ID is found
+            if (busId == default)
+            {
+                return null;
+            }
+
+            // Get the latest bus location for the found busId
+            var latestLocation = await _context.Buslocations
+                                               .Include(loc => loc.Bus)
+                                               .Where(loc => loc.BusId == busId)
+                                               .OrderByDescending(loc => loc.Adate)
+                                               .FirstOrDefaultAsync();
+
+            // Handle the case where no location is found
+            if (latestLocation == null)
+            {
+                throw new InvalidOperationException("No bus location found for the given parent ID.");
+            }
+
+            // Return the latest location mapped to the DTO
+            return new AllBusesLocation
+            {
+                BusId = latestLocation.BusId,
+                Busnumber = latestLocation.Bus.Busnumber,
+                Latitude = latestLocation.Latitude,
+                Longitude = latestLocation.Longitude,
+                Adate = latestLocation.Adate
+            };
+        }
+
     }
 }

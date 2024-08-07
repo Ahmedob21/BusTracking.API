@@ -17,16 +17,7 @@ namespace BusTracking.API.Controllers
         {
             _busService = busService;
         }
-        [HttpGet("parent/{parentId}")]
-        public async Task<ActionResult<bus>> GetBusForParent(int parentId)
-        {
-            var bus = await _busService.GetBusForParent(parentId);
-            if (bus == null)
-            {
-                return NotFound(new { Message = "No bus found for the given parent ID" });
-            }
-            return Ok(bus);
-        }
+    
 
         [HttpPost]
         public async Task CreateBus([FromBody]bus bus)
