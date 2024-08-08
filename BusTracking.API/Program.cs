@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.AspNetCore.SignalR;
+using BusTracking.API.signalr;
 
 namespace BusTracking.API
 {
@@ -68,8 +70,9 @@ namespace BusTracking.API
             builder.Services.AddScoped<IAttendanceRepository, AttendanceRepository>();
 
 
-            
 
+
+            builder.Services.AddSignalR();
 
             builder.Services.AddAuthentication(x =>
             {
@@ -118,6 +121,7 @@ namespace BusTracking.API
             app.UseCors("policy");
 
             app.UseHttpsRedirection();
+            app.MapHub<NotificationHub>("/notificationHub"); // Add this
             app.MapControllers();
 
             app.Run();
