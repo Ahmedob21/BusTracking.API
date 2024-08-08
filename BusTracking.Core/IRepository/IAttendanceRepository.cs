@@ -13,5 +13,7 @@ namespace BusTracking.Core.IRepository
 
         Task<IEnumerable<AttendanceForChild>> GetAttendanceForChild(decimal childid);
         Task CreateAttendance(AttendanceSubmission submission);
+        Task UpdateAttendance(decimal attendanceId, UpdateAttendance updateAttendance);
+        Task DeleteAttendance(decimal attendanceId);
     }
 }

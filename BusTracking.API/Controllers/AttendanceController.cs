@@ -41,5 +41,49 @@ namespace BusTracking.API.Controllers
         {
             return await _attendanceService.GetBusWithChildrenByTeacherId(teacherId);
         }
+
+
+
+        [HttpDelete ("{attendanceId}")]
+        public async Task<IActionResult> DeleteAttendance(decimal attendanceId)
+        {
+            try
+            {
+                await _attendanceService.DeleteAttendance(attendanceId);
+                return Ok(new { message = "Attendance deleted successfully" });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+
+        [HttpPut ("{attendanceId}")]
+        public async Task<IActionResult> UpdateAttendance(decimal attendanceId, UpdateAttendance updateAttendance)
+        {
+            try
+            {
+                await _attendanceService.UpdateAttendance(attendanceId, updateAttendance);
+                return Ok(new { message = "Attendance updated successfully" });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+
+
+
+
+
+
+
+
     }
+
+
+
+    
 }

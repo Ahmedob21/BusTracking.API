@@ -99,21 +99,46 @@ namespace BusTracking.Infra.Repository
             await _context.SaveChangesAsync();
         }
 
+        public async Task  UpdateAttendance(decimal attendanceId, UpdateAttendance updateAttendance)
+        {
+            try
+            {
+                var attendance = await _context.Attendances.FindAsync(attendanceId);
 
+                if (attendance == null)
+                {
+                    throw new Exception($"Attendance record with ID {attendanceId} not found.");
+                }
 
+                attendance.Status = updateAttendance.Status;
 
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"An error occurred while updating the attendance: {ex.Message}");
+            }
+        }
 
+        public async Task DeleteAttendance(decimal attendanceId)
+        {
+            try
+            {
+                var attendance = await _context.Attendances.FindAsync(attendanceId);
 
+                if (attendance == null)
+                {
+                    throw new Exception($"Attendance record with ID {attendanceId} not found.");
+                }
 
+                _context.Attendances.Remove(attendance);
 
-
-
-
-
-
-
-
-
-
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"An error occurred while deleting the attendance: {ex.Message}");
+            }
+        }
     }
 }
