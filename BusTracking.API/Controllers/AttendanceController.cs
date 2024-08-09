@@ -74,7 +74,17 @@ namespace BusTracking.API.Controllers
         }
 
 
-
+        [HttpGet("{parentId}")]
+        [Route("GetChildAttendanceForParent/{parentId}")]
+        public async Task<ActionResult<IEnumerable<AttendanceForChild>>> GetChildAttendanceForParent(decimal parentId)
+        {
+            var attendance = await _attendanceService.GetChildAttendanceForParent(parentId);
+            if (attendance == null)
+            {
+                return NotFound();
+            }
+            return Ok(attendance);
+        }
 
 
 

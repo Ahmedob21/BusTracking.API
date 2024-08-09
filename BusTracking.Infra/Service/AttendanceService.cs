@@ -42,5 +42,11 @@ namespace BusTracking.Infra.Service
         {
             await _attendanceRepository.UpdateAttendance(attendanceId, updateAttendance);
         }
+
+
+        public async Task<IEnumerable<AttendanceForChild>> GetChildAttendanceForParent(decimal parentId)
+        {
+           return await _attendanceRepository.GetChildAttendanceForParent(parentId);
+        }
     }
 }

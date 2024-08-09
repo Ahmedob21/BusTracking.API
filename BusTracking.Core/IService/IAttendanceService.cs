@@ -14,5 +14,6 @@ namespace BusTracking.Core.IService
         Task CreateAttendance(AttendanceSubmission submission);
         Task UpdateAttendance(decimal attendanceId, UpdateAttendance updateAttendance);
         Task DeleteAttendance(decimal attendanceId);
+        Task<IEnumerable<AttendanceForChild>> GetChildAttendanceForParent(decimal parentid);
     }
 }

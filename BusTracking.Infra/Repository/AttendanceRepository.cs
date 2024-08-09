@@ -56,19 +56,6 @@ namespace BusTracking.Infra.Repository
         }
 
 
-
-        //public async Task CreateAttendance(CreateAttendace createAttendace)
-        //{
-
-        //    var attendance = new Attendance();
-        //    attendance.Status = createAttendace.Status;
-        //    attendance.Childid = createAttendace.Childid;
-        //    attendance.Teacherid=createAttendace.Teacherid;
-        //    _context.Attendances.Add(attendance);
-        //    await _context.SaveChangesAsync();
-        //}
-
-
         public async Task CreateAttendance(AttendanceSubmission submission)
         {
             // Check if the teacher exists
@@ -139,6 +126,39 @@ namespace BusTracking.Infra.Repository
             {
                 throw new Exception($"An error occurred while deleting the attendance: {ex.Message}");
             }
+        }
+
+        public async Task<IEnumerable<AttendanceForChild>> GetChildAttendanceForParent(decimal parentId)
+        {
+            // Get all children associated with the parent
+            var children = await _context.Children
+                .Where(c => c.Parentid == parentId)
+                .ToListAsync();
+
+            // Get attendance for all these children
+            var attendanceRecords = new List<AttendanceForChild>();
+
+            foreach (var child in children)
+            {
+                var childAttendances = await _context.Attendances
+                    .Include(att => att.Child)
+                    .Where(att => att.Childid == child.Childid)
+                    .ToListAsync();
+
+                var mappedAttendances = childAttendances.Select(attendance => new AttendanceForChild
+                {
+                    Attendanceid = attendance.Attendanceid,
+                    Attendancedate = attendance.Attendancedate,
+                    Status = attendance.Status,
+                    Childid = attendance.Childid,
+                    Firstname = attendance.Child.Firstname,
+                    Lastname = attendance.Child.Lastname
+                });
+
+                attendanceRecords.AddRange(mappedAttendances);
+            }
+
+            return attendanceRecords;
         }
     }
 }
