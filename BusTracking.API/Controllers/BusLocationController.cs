@@ -29,7 +29,7 @@ namespace BusTracking.API.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> UpdateBusLocation([FromBody] Buslocation busLocation)
+        public async Task<IActionResult> UpdateBusLocation([FromBody] UpdateBusLocation busLocation)
         {
             if (!ModelState.IsValid)
             {

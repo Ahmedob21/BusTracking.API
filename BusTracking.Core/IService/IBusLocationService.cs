@@ -11,7 +11,7 @@ namespace BusTracking.Core.IService
     public interface IBusLocationService
     {
         Task<AllBusesLocation> GetLatestLocation(decimal busId);
-        Task UpdateBusLocation(Buslocation busLocation);
+        Task UpdateBusLocation(UpdateBusLocation busLocation);
         Task<IEnumerable<AllBusesLocation>> GetAllBusesLocations();
         Task<AllBusesLocation> GetBusLocationByTeacherId(decimal teacherId);
         Task<AllBusesLocation> GetBusLocationByDriverId(decimal driverId);

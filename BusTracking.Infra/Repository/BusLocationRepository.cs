@@ -45,24 +45,34 @@ namespace BusTracking.Infra.Repository
             }).ToList();
         }
 
-        public async Task UpdateBusLocation(Buslocation busLocation)
+        public async Task UpdateBusLocation(UpdateBusLocation busLocationDto)
         {
-            var existingLocation = await _context.Buslocations.FirstOrDefaultAsync(b=>b.BusId == busLocation.BusId);
+            var existingLocation = await _context.Buslocations.FirstOrDefaultAsync(b => b.BusId == busLocationDto.BusId);
 
-
-            if (existingLocation != null )
+            if (existingLocation != null)
             {
-                existingLocation.Latitude = busLocation.Latitude;
-                existingLocation.Longitude = busLocation.Longitude;
-                existingLocation.Adate = busLocation.Adate ?? DateTime.Now;
+               
+                existingLocation.Latitude = busLocationDto.Latitude;
+                existingLocation.Longitude = busLocationDto.Longitude;
+                existingLocation.Adate = busLocationDto.Adate ?? DateTime.Now;
             }
             else
             {
-                busLocation.Adate = busLocation.Adate ?? DateTime.Now; // Set manually or use current time
-                _context.Buslocations.Add(busLocation);
+               
+                var newBusLocation = new Buslocation
+                {
+                    BusId = busLocationDto.BusId,
+                    Latitude = busLocationDto.Latitude,
+                    Longitude = busLocationDto.Longitude,
+                    Adate = busLocationDto.Adate ?? DateTime.Now
+                };
+
+                _context.Buslocations.Add(newBusLocation);
             }
+
             await _context.SaveChangesAsync();
         }
+
 
         public async Task<AllBusesLocation> GetBusLocationByTeacherId(decimal teacherId)
         {

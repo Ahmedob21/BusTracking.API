@@ -11,7 +11,7 @@ namespace BusTracking.Core.IRepository
     public interface IBusLocationRepository
     {
         Task<AllBusesLocation> GetLatestLocation(decimal busId);
-        Task UpdateBusLocation(Buslocation busLocation);
+        Task UpdateBusLocation(UpdateBusLocation busLocation);
         Task<IEnumerable<AllBusesLocation>> GetAllBusesLocations();
         Task<AllBusesLocation> GetBusLocationByTeacherId(decimal teacherId);
         Task<AllBusesLocation> GetBusLocationByDriverId(decimal driverId);

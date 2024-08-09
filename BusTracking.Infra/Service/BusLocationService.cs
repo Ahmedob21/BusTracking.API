@@ -44,7 +44,7 @@ namespace BusTracking.Infra.Service
             return await _busLocationRepository.GetLatestLocation(busId);
         }
 
-        public async Task UpdateBusLocation(Buslocation busLocation)
+        public async Task UpdateBusLocation(UpdateBusLocation busLocation)
         {
             await _busLocationRepository.UpdateBusLocation(busLocation);
         }
