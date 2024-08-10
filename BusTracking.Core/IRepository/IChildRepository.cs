@@ -17,5 +17,6 @@ namespace BusTracking.Core.IRepository
         Task UpdateChild(Child child);
         Task DeleteChild(int Childid);
         Task<List<Child>> SearchChildrenByName(string name);
+        Task<List<ChidrenResult>> GetChildrenByDriverId(int driverId);
     }
 }

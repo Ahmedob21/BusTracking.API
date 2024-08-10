@@ -14,5 +14,6 @@ namespace BusTracking.Core.IService
         Task CreatePagecontent(Pagecontent pagecontent);
         Task UpdatePagecontent(Pagecontent pagecontent);
         Task DeletePagecontent(int Pagecontentid);
+        Task<Pagecontent> GetcontentByKey(string key);
     }
 }

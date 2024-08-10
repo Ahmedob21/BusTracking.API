@@ -68,5 +68,12 @@ namespace BusTracking.API.Controllers
         {
             return _childService.SearchChildrenByName(name);
         }
+
+        [HttpGet]                //successfully working
+        [Route("GetChildrenByDriverId/{driverid}")]
+        public Task<List<ChidrenResult>> GetChildrenByDriverId(int driverid)
+        {
+            return  _childService.GetChildrenByDriverId(driverid);
+        }
     }
 }

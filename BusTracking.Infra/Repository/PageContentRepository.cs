@@ -15,10 +15,15 @@ namespace BusTracking.Infra.Repository
     {
         private readonly IDbContext _dbContext;
 
-        public PageContentRepository(IDbContext dbContext)
+        private readonly ModelContext _modelContext;
+        public PageContentRepository(IDbContext dbContext, ModelContext modelContext)
         {
             _dbContext = dbContext;
+            _modelContext = modelContext;
         }
+
+
+      
 
         public async Task CreatePagecontent(Pagecontent pagecontent)
         {
@@ -51,6 +56,11 @@ namespace BusTracking.Infra.Repository
             param.Add("get_PAGECONTENTID", Pagecontentid, dbType: DbType.Int32, direction: ParameterDirection.Input);
             var result = await _dbContext.Connection.QueryAsync<Pagecontent>("PAGECONTENT_PACKAGE.get_PAGECONTENT_by_id", param, commandType: CommandType.StoredProcedure);
             return result.SingleOrDefault();
+        }
+
+        public async Task<Pagecontent> GetcontentByKey(string key)
+        {
+           return  _modelContext.Pagecontents.Where(x=>x.Contentkey == key).SingleOrDefault();
         }
 
         public async Task UpdatePagecontent(Pagecontent pagecontent)

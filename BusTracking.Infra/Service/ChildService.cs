@@ -54,5 +54,11 @@ namespace BusTracking.Infra.Service
         {
             return _childRepository.SearchChildrenByName(name);
         }
+
+        public  Task<List<ChidrenResult>> GetChildrenByDriverId(int driverid)
+        {
+            return  _childRepository.GetChildrenByDriverId(driverid);
+        }
+
     }
 }

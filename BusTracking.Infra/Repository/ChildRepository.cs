@@ -81,7 +81,12 @@ namespace BusTracking.Infra.Repository
             return result.ToList();
         }
 
-
+        public async Task<List<ChidrenResult>> GetChildrenByDriverId(int driverid) {
+        var param = new DynamicParameters();
+            param.Add("get_DriverId", driverid , dbType: DbType.Int32, direction:ParameterDirection.Input);
+            var result=await _dbContext.Connection.QueryAsync<ChidrenResult>("children_package.get_children_by_driverid",param, commandType: CommandType.StoredProcedure);
+            return result.ToList();
+        }
 
 
     }

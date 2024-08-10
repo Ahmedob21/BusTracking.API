@@ -42,5 +42,10 @@ namespace BusTracking.Infra.Service
         {
             await _PageContentRepository.UpdatePagecontent(pagecontent);
         }
+
+        public Task<Pagecontent> GetcontentByKey(string key)
+        {
+            return _PageContentRepository.GetcontentByKey(key);
+        }
     }
 }

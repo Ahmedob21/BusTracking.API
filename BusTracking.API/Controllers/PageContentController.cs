@@ -30,6 +30,13 @@ namespace BusTracking.API.Controllers
             return await _pageContentService.GetPagecontentById(Pagecontentid);
         }
 
+        [HttpGet]
+        [Route("key/{key}")]
+        public async Task<Pagecontent> GetcontentByKey(string key)
+        {
+            return await _pageContentService.GetcontentByKey(key);
+        }
+
         [HttpPost]
         public async Task CreatePagecontent(Pagecontent pagecontent)
         {
