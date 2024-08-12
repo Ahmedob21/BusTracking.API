@@ -20,8 +20,8 @@ namespace BusTracking.API.Controllers
             _childService = childService;
         }
         [HttpGet]               //succesfully working
-        //[Authorize]
-        //[CheckClaims("RoleId","1")]
+        [Authorize]
+        [CheckClaims("RoleId","1")]
         public async Task<List<ChidrenResult>> GetAllChildren()
         {
             return await _childService.GetAllChildren();

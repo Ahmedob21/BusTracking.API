@@ -42,7 +42,7 @@ namespace BusTracking.Infra.Service
                 var tokenoptions = new JwtSecurityToken(
 
                     claims: claims,
-                    expires: DateTime.Now.AddMinutes(30),
+                    expires: DateTime.Now.AddDays(5),
                     signingCredentials: signCred
                     );
 
