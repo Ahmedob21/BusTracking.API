@@ -1,6 +1,7 @@
 ﻿using BusTracking.Core.Data;
 using BusTracking.Core.DTO;
 using BusTracking.Core.IService;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,6 +21,7 @@ namespace BusTracking.API.Controllers
 
 
         [HttpPost]
+        [Authorize]
         public async Task CreateTestimonial(Testimonial testimonial)
         {
             await _testimonialService.CreateTestimonial(testimonial);

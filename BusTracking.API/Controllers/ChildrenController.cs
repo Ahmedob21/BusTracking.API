@@ -21,7 +21,7 @@ namespace BusTracking.API.Controllers
         }
         [HttpGet]               //succesfully working
         [Authorize]
-        [CheckClaims("RoleId","1")]
+       // [CheckClaims("RoleId","1")]
         public async Task<List<ChidrenResult>> GetAllChildren()
         {
             return await _childService.GetAllChildren();
@@ -34,6 +34,8 @@ namespace BusTracking.API.Controllers
         }
 
         [HttpPost]             //succesfully working
+        [Authorize]
+        [CheckClaims("RoleId", "1")]
         public async Task CreateChild(Child child)
         {
             await _childService.CreateChild(child);
@@ -48,6 +50,8 @@ namespace BusTracking.API.Controllers
 
         [HttpDelete]  //succesfully working
         [Route("delete/{Childid}")]
+        [Authorize]
+        [CheckClaims("RoleId", "1")]
         public async Task DeleteChild(int Childid)
         {
             await _childService.DeleteChild(Childid);
@@ -55,6 +59,8 @@ namespace BusTracking.API.Controllers
 
 
         [HttpPut]             //succesfully working
+        [Authorize]
+        [CheckClaims("RoleId", "1")]
         public async Task UpdateChild([FromBody] Child child)
         {
             await _childService.UpdateChild(child);
