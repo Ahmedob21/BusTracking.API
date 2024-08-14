@@ -24,7 +24,7 @@ namespace BusTracking.API.Controllers
             await _attendanceService.CreateAttendance(submission);
            return  Ok(new { message = "Attendance submitted successfully" });
         }
-    
+
 
 
         [HttpGet("{childid}")]
