@@ -22,12 +22,12 @@ namespace BusTracking.API.Controllers
             return await _notificationService.GetAllNotifications();
         }
 
-        //[HttpGet]
-        //[Route("ByParentId{parentid}")]
-        //public async Task<List<Notification>> GetAllNotificationsByParentId(int parentid)
-        //{
-        //    return await _notificationService.GetAllNotifications();
-        //}
+        [HttpGet]
+        [Route("ByParentId/{parentid}")]
+        public async Task<List<Notification>> GetAllNotificationsByParentId(int parentid)
+        {
+            return await _notificationService.GetAllNotificationsByParentId(parentid);
+        }
 
         [HttpGet("{notificationId}")]
         public async Task<Notification> GetNotificationById(int notificationId)

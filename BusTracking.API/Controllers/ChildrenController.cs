@@ -81,5 +81,13 @@ namespace BusTracking.API.Controllers
         {
             return  _childService.GetChildrenByDriverId(driverid);
         }
+
+
+        [HttpGet]
+        [Route("GetTripChildren/{teacherid}")]
+        public async Task<IEnumerable<PresentChildren>> GetTripChildren(decimal teacherId)
+        {
+           return await _childService.GetTripChildren(teacherId);
+        }
     }
 }

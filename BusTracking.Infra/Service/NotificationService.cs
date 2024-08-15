@@ -43,10 +43,10 @@ namespace BusTracking.Infra.Service
         {
             await _notificationRepository.UpdateNotification(notification);
         }
-        //public async Task<List<Notification>> GetAllNotificationsByParentId(int parentid)
-        //{
-        //    return await _notificationRepository.GetAllNotificationsByParentId(parentid);
-        //}
+        public async Task<List<Notification>> GetAllNotificationsByParentId(int parentid)
+        {
+            return await _notificationRepository.GetAllNotificationsByParentId(parentid);
+        }
     }
 
 }

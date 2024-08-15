@@ -60,5 +60,10 @@ namespace BusTracking.Infra.Service
             return  _childRepository.GetChildrenByDriverId(driverid);
         }
 
+        public Task<IEnumerable<PresentChildren>> GetTripChildren(decimal teacherId)
+        {
+            return _childRepository.GetTripChildren(teacherId);
+        }
+
     }
 }

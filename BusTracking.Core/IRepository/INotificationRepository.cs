@@ -14,6 +14,6 @@ namespace BusTracking.Core.IRepository
         Task DeleteNotification(int notificationId);
         Task<Notification> GetNotificationById(int notificationId);
         Task<List<Notification>> GetAllNotifications();
-
+        Task<List<Notification>> GetAllNotificationsByParentId(int parentid);
     }
 }

@@ -18,5 +18,6 @@ namespace BusTracking.Core.IService
         Task DeleteChild(int Childid);
         Task<List<Child>> SearchChildrenByName(string name);
         Task<List<ChidrenResult>> GetChildrenByDriverId(int driverId);
+        Task<IEnumerable<PresentChildren>> GetTripChildren(decimal teacherId);
     }
 }

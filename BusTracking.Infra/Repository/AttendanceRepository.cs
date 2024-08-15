@@ -32,12 +32,13 @@ namespace BusTracking.Infra.Repository
                     Firstname = c.Firstname,
                     Lastname = c.Lastname,
                     parentName = c.Parent.Firstname,
-                    Busnumber = c.Bus.Busnumber
+                    Busnumber = c.Bus.Busnumber,
+                    Parentid=c.Parentid
                 })
                 .ToListAsync();
         }
 
-
+       
 
         public async Task<IEnumerable<AttendanceForChild>> GetAttendanceForChild(decimal childid)
         {

@@ -3,6 +3,7 @@ using BusTracking.Core.DTO;
 using BusTracking.Core.ICommon;
 using BusTracking.Core.IRepository;
 using Dapper;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -88,6 +89,33 @@ namespace BusTracking.Infra.Repository
             return result.ToList();
         }
 
+        public async Task<IEnumerable<PresentChildren>> GetTripChildren(decimal teacherId)
+        {
+            // Step 1: Retrieve the bus associated with the logged-in teacher
+            var bus = await _context.Buses
+                .Include(b => b.Children)
+                .FirstOrDefaultAsync(b => b.Teacherid == teacherId);
 
+            if (bus == null)
+            {
+                return Enumerable.Empty<PresentChildren>();
+            }
+
+            // Step 2: Retrieve the children in that bus
+            var children = bus.Children
+                .Where(c => c.Attendances.Any(a => a.Attendancedate == DateTimeOffset.Now.Date && a.Status == "Present"))
+                .Select(c => new PresentChildren
+                {
+                    Childid = c.Childid,
+                    Firstname = c.Firstname,
+                    Lastname = c.Lastname,
+                    Address = c.Address,
+                    Parentid = c.Parentid,
+                    Status = "Present" // Since we are filtering for "Present" status, you can directly set this.
+                })
+                .ToList();
+
+            return children;
+        }
     }
 }

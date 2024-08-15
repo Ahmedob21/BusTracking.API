@@ -8,16 +8,19 @@ using BusTracking.Core.Data;
 using BusTracking.Core.ICommon;
 using BusTracking.Core.IRepository;
 using Dapper;
+using Microsoft.EntityFrameworkCore;
 
 namespace BusTracking.Infra.Repository
 {
     public class NotificationRepository : INotificationRepository
     {
         private readonly IDbContext _dbContext;
+        private readonly ModelContext _modelContext;
 
-        public NotificationRepository(IDbContext dBContext)
+        public NotificationRepository(IDbContext dBContext, ModelContext modelContext)
         {
             _dbContext = dBContext;
+            _modelContext = modelContext;
         }
 
         public async Task CreateNotification(Notification notification)
@@ -62,6 +65,12 @@ namespace BusTracking.Infra.Repository
         {
             var result = await _dbContext.Connection.QueryAsync<Notification>("NOTIFICATIONS_PACKAGE.get_all_NOTIFICATIONS", commandType: CommandType.StoredProcedure);
             return result.ToList();
+        }
+
+        public async Task<List<Notification>> GetAllNotificationsByParentId(int parentid) 
+        {
+           var result= await _modelContext.Notifications.Where(x=>x.ParentId == parentid).ToListAsync();
+            return result;
         }
     }
 
