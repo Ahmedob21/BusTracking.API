@@ -28,14 +28,14 @@ namespace BusTracking.Infra.Repository
 
             if (location == null)
             {
-                // Return default location with Latitude and Longitude set to default values
+               
                 return new AllBusesLocation
                 {
-                    Busnumber = _context.Buses.FirstOrDefault(b => b.Busid == busId)?.Busnumber ?? "Unknown Bus", // Get the bus number based on busId
-                    Latitude = 31.9596M,            // Default latitude as decimal
-                    Longitude = 35.8494M,           // Default longitude as decimal
-                    Adate = DateTime.Now,           // Set to the current date/time
-                    BusId = busId                   // Bus ID for reference
+                    Busnumber = _context.Buses.FirstOrDefault(b => b.Busid == busId)?.Busnumber ?? "Unknown Bus", 
+                    Latitude = 31.9596M,           
+                    Longitude = 35.8494M,          
+                    Adate = DateTime.Now,          
+                    BusId = busId                  
                 };
             }
 
@@ -55,14 +55,14 @@ namespace BusTracking.Infra.Repository
 
             if (!locations.Any())
             {
-                // Return default location if no locations exist
+                
                 return _context.Buses.Select(bus => new AllBusesLocation
                 {
                     Busnumber = bus.Busnumber,
-                    Latitude = 31.9596M,            // Default latitude as decimal
-                    Longitude = 35.8494M,           // Default longitude as decimal
-                    Adate = DateTime.Now,           // Default date
-                    BusId = bus.Busid               // Bus ID from bus table
+                    Latitude = 31.9596M,          
+                    Longitude = 35.8494M,         
+                    Adate = DateTime.Now,         
+                    BusId = bus.Busid             
                 }).ToList();
             }
 
@@ -116,15 +116,15 @@ namespace BusTracking.Infra.Repository
 
             if (location == null)
             {
-                // Return default location if no location exists for the teacher's bus
+               
                 var bus = await _context.Buses.FirstOrDefaultAsync(b => b.Teacherid == teacherId);
                 return new AllBusesLocation
                 {
-                    Busnumber = bus?.Busnumber ?? "Unknown Bus", // Get the bus number based on teacherId
-                    Latitude = 31.9596M,            // Default latitude as decimal
-                    Longitude = 35.8494M,           // Default longitude as decimal
-                    Adate = DateTime.Now,           // Set to the current date/time
-                    BusId = bus?.Busid ?? 0         // Bus ID from bus table or 0 if not found
+                    Busnumber = bus?.Busnumber ?? "Unknown Bus", 
+                    Latitude = 31.9596M,           
+                    Longitude = 35.8494M,          
+                    Adate = DateTime.Now,          
+                    BusId = bus?.Busid ?? 0        
                 };
             }
 
@@ -149,15 +149,15 @@ namespace BusTracking.Infra.Repository
 
             if (location == null)
             {
-                // Return default location if no location exists for the driver's bus
+                
                 var bus = await _context.Buses.FirstOrDefaultAsync(b => b.Driverid == driverId);
                 return new AllBusesLocation
                 {
-                    Busnumber = bus?.Busnumber ?? "Unknown Bus", // Get the bus number based on driverId
-                    Latitude = 31.9596M,            // Default latitude as decimal
-                    Longitude = 35.8494M,           // Default longitude as decimal
-                    Adate = DateTime.Now,           // Set to the current date/time
-                    BusId = bus?.Busid ?? 0         // Bus ID from bus table or 0 if not found
+                    Busnumber = bus?.Busnumber ?? "Unknown Bus", 
+                    Latitude = 31.9596M,         
+                    Longitude = 35.8494M,        
+                    Adate = DateTime.Now,        
+                    BusId = bus?.Busid ?? 0      
                 };
             }
 
@@ -192,15 +192,15 @@ namespace BusTracking.Infra.Repository
 
             if (latestLocation == null)
             {
-                // Return default location if no location exists for the bus
+               
                 var bus = await _context.Buses.FirstOrDefaultAsync(b => b.Busid == busId);
                 return new AllBusesLocation
                 {
-                    Busnumber = bus?.Busnumber ?? "Unknown Bus", // Get the bus number based on busId
-                    Latitude = 31.9596M,            // Default latitude as decimal
-                    Longitude = 35.8494M,           // Default longitude as decimal
-                    Adate = DateTime.Now,           // Set to the current date/time
-                    BusId = busId                   // Bus ID for reference
+                    Busnumber = bus?.Busnumber ?? "Unknown Bus", 
+                    Latitude = 31.9596M,          
+                    Longitude = 35.8494M,         
+                    Adate = DateTime.Now,         
+                    BusId = busId                 
                 };
             }
 
