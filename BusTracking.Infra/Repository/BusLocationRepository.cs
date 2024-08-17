@@ -20,20 +20,51 @@ namespace BusTracking.Infra.Repository
         }
         public async Task<AllBusesLocation> GetLatestLocation(decimal busId)
         {
-            var Locations = await _context.Buslocations.Include(bus=>bus.Bus).Where(bus => bus.BusId == busId).SingleOrDefaultAsync();
+            var location = await _context.Buslocations
+                .Include(bus => bus.Bus)
+                .Where(bus => bus.BusId == busId)
+                .OrderByDescending(bus => bus.Adate)
+                .FirstOrDefaultAsync();
+
+            if (location == null)
+            {
+                // Return default location with Latitude and Longitude set to default values
+                return new AllBusesLocation
+                {
+                    Busnumber = _context.Buses.FirstOrDefault(b => b.Busid == busId)?.Busnumber ?? "Unknown Bus", // Get the bus number based on busId
+                    Latitude = 31.9596M,            // Default latitude as decimal
+                    Longitude = 35.8494M,           // Default longitude as decimal
+                    Adate = DateTime.Now,           // Set to the current date/time
+                    BusId = busId                   // Bus ID for reference
+                };
+            }
+
             return new AllBusesLocation
             {
-                Busnumber = Locations.Bus.Busnumber,
-                Latitude = Locations.Latitude,
-                Longitude = Locations.Longitude,
-                Adate = Locations.Adate,
-                BusId = Locations.BusId
+                Busnumber = location.Bus.Busnumber,
+                Latitude = location.Latitude,
+                Longitude = location.Longitude,
+                Adate = location.Adate,
+                BusId = location.BusId
             };
-
         }
+
         public async Task<IEnumerable<AllBusesLocation>> GetAllBusesLocations()
         {
             var locations = await _context.Buslocations.Include(bus => bus.Bus).ToListAsync();
+
+            if (!locations.Any())
+            {
+                // Return default location if no locations exist
+                return _context.Buses.Select(bus => new AllBusesLocation
+                {
+                    Busnumber = bus.Busnumber,
+                    Latitude = 31.9596M,            // Default latitude as decimal
+                    Longitude = 35.8494M,           // Default longitude as decimal
+                    Adate = DateTime.Now,           // Default date
+                    BusId = bus.Busid               // Bus ID from bus table
+                }).ToList();
+            }
 
             return locations.Select(location => new AllBusesLocation
             {
@@ -44,6 +75,7 @@ namespace BusTracking.Infra.Repository
                 BusId = location.BusId
             }).ToList();
         }
+
 
         public async Task UpdateBusLocation(UpdateBusLocation busLocationDto)
         {
@@ -76,89 +108,113 @@ namespace BusTracking.Infra.Repository
 
         public async Task<AllBusesLocation> GetBusLocationByTeacherId(decimal teacherId)
         {
-            var busCount = await _context.Buslocations.CountAsync(bus => bus.Bus.Teacherid == teacherId);
+            var location = await _context.Buslocations
+                .Include(bus => bus.Bus)
+                .Where(bus => bus.Bus.Teacherid == teacherId)
+                .OrderByDescending(bus => bus.Adate)
+                .FirstOrDefaultAsync();
 
-            if (busCount > 1)
+            if (location == null)
             {
-                throw new InvalidOperationException("The teacher is associated with more than one bus.");
+                // Return default location if no location exists for the teacher's bus
+                var bus = await _context.Buses.FirstOrDefaultAsync(b => b.Teacherid == teacherId);
+                return new AllBusesLocation
+                {
+                    Busnumber = bus?.Busnumber ?? "Unknown Bus", // Get the bus number based on teacherId
+                    Latitude = 31.9596M,            // Default latitude as decimal
+                    Longitude = 35.8494M,           // Default longitude as decimal
+                    Adate = DateTime.Now,           // Set to the current date/time
+                    BusId = bus?.Busid ?? 0         // Bus ID from bus table or 0 if not found
+                };
             }
 
-            var result = await _context.Buslocations
-                .Where(bus => bus.Bus.Teacherid == teacherId)
-                .Select(bus => new AllBusesLocation
-                {
-                    Busnumber = bus.Bus.Busnumber,
-                    Latitude = bus.Latitude,
-                    Longitude = bus.Longitude,
-                    Adate = bus.Adate,
-                    BusId = bus.BusId
-                })
-                .SingleOrDefaultAsync();
-
-            return result;
+            return new AllBusesLocation
+            {
+                Busnumber = location.Bus.Busnumber,
+                Latitude = location.Latitude,
+                Longitude = location.Longitude,
+                Adate = location.Adate,
+                BusId = location.BusId
+            };
         }
+
 
         public async Task<AllBusesLocation> GetBusLocationByDriverId(decimal driverId)
         {
-            var busCount = await _context.Buslocations.CountAsync(bus => bus.Bus.Driverid == driverId);
+            var location = await _context.Buslocations
+                .Include(bus => bus.Bus)
+                .Where(bus => bus.Bus.Driverid == driverId)
+                .OrderByDescending(bus => bus.Adate)
+                .FirstOrDefaultAsync();
 
-            if (busCount > 1)
+            if (location == null)
             {
-                throw new InvalidOperationException("The teacher is associated with more than one bus.");
+                // Return default location if no location exists for the driver's bus
+                var bus = await _context.Buses.FirstOrDefaultAsync(b => b.Driverid == driverId);
+                return new AllBusesLocation
+                {
+                    Busnumber = bus?.Busnumber ?? "Unknown Bus", // Get the bus number based on driverId
+                    Latitude = 31.9596M,            // Default latitude as decimal
+                    Longitude = 35.8494M,           // Default longitude as decimal
+                    Adate = DateTime.Now,           // Set to the current date/time
+                    BusId = bus?.Busid ?? 0         // Bus ID from bus table or 0 if not found
+                };
             }
 
-            var result = await _context.Buslocations
-                .Where(bus => bus.Bus.Driverid == driverId)
-                .Select(bus => new AllBusesLocation
-                {
-                    Busnumber = bus.Bus.Busnumber,
-                    Latitude = bus.Latitude,
-                    Longitude = bus.Longitude,
-                    Adate = bus.Adate,
-                    BusId = bus.BusId
-                })
-                .SingleOrDefaultAsync();
-
-            return result;
+            return new AllBusesLocation
+            {
+                Busnumber = location.Bus.Busnumber,
+                Latitude = location.Latitude,
+                Longitude = location.Longitude,
+                Adate = location.Adate,
+                BusId = location.BusId
+            };
         }
+
 
         public async Task<AllBusesLocation> GetBusLocationForParent(decimal parentId)
         {
-            // Get the bus ID associated with the parent's children
             var busId = await _context.Children
-                                       .Where(child => child.Parentid == parentId)
-                                       .Select(child => child.Busid)
-                                       .FirstOrDefaultAsync();
+                .Where(child => child.Parentid == parentId)
+                .Select(child => child.Busid)
+                .FirstOrDefaultAsync();
 
-            // Handle the case where no bus ID is found
             if (busId == default)
             {
                 return null;
             }
 
-            // Get the latest bus location for the found busId
             var latestLocation = await _context.Buslocations
-                                               .Include(loc => loc.Bus)
-                                               .Where(loc => loc.BusId == busId)
-                                               .OrderByDescending(loc => loc.Adate)
-                                               .FirstOrDefaultAsync();
+                .Include(loc => loc.Bus)
+                .Where(loc => loc.BusId == busId)
+                .OrderByDescending(loc => loc.Adate)
+                .FirstOrDefaultAsync();
 
-            // Handle the case where no location is found
             if (latestLocation == null)
             {
-                throw new InvalidOperationException("No bus location found for the given parent ID.");
+                // Return default location if no location exists for the bus
+                var bus = await _context.Buses.FirstOrDefaultAsync(b => b.Busid == busId);
+                return new AllBusesLocation
+                {
+                    Busnumber = bus?.Busnumber ?? "Unknown Bus", // Get the bus number based on busId
+                    Latitude = 31.9596M,            // Default latitude as decimal
+                    Longitude = 35.8494M,           // Default longitude as decimal
+                    Adate = DateTime.Now,           // Set to the current date/time
+                    BusId = busId                   // Bus ID for reference
+                };
             }
 
-            // Return the latest location mapped to the DTO
             return new AllBusesLocation
             {
-                BusId = latestLocation.BusId,
                 Busnumber = latestLocation.Bus.Busnumber,
                 Latitude = latestLocation.Latitude,
                 Longitude = latestLocation.Longitude,
-                Adate = latestLocation.Adate
+                Adate = latestLocation.Adate,
+                BusId = latestLocation.BusId
             };
         }
+
+
 
     }
 }
