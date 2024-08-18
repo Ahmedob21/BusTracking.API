@@ -10,5 +10,8 @@ namespace BusTracking.Core.IService
     public interface IArrivalService
     {
         Task CreateArrival(ArrivalResult arrival);
+        Task DeletArrival(decimal arrivalid);
+        Task UpdateArrival(decimal id, UpdateArrival updatedarrival);
+        Task<List<ArrivalModel>> GellAllArrivalsByChildId(decimal childid);
     }
 }

@@ -23,5 +23,20 @@ namespace BusTracking.Infra.Service
         {
            await _repository.CreateArrival(arrival);
         }
+
+        public async Task DeletArrival(decimal arrivalid)
+        {
+          await _repository.DeletArrival(arrivalid);
+        }
+
+        public Task<List<ArrivalModel>> GellAllArrivalsByChildId(decimal childid)
+        {
+            return _repository.GellAllArrivalsByChildId(childid);
+        }
+
+        public async Task UpdateArrival(decimal id, UpdateArrival updatedarrival)
+        {
+            await _repository.UpdateArrival(id, updatedarrival);  
+        }
     }
 }
